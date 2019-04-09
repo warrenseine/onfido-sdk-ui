@@ -105,7 +105,7 @@ const runner = async () => {
         printTestInfo(browser, testCase)
 
         await mocha.runP()
-        await driver.finish()
+        await driver.quit()
       } catch (e) {
         console.log(e)
       }
