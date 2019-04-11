@@ -74,37 +74,94 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const passportIcon = await documentSelection.passportIcon.isDisplayed()
   })
 
-  it('test passport label', async () => {
+  it('test passport label text', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     const documentSelectionPassportLabel = await documentSelection.documentSelectionLabel.getText()
     expect(documentSelectionPassportLabel).to.equal('Passport');
   })
 
-  it('test passport hint', async () => {
+  it('test passport label presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const documentSelectionPassportLabel = await documentSelection.documentSelectionLabel.isDisplayed()
+  })
+
+  it('test passport hint text', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     const documentSelectionPassportHint = await documentSelection.documentSelectionHint.getText()
     expect(documentSelectionPassportHint).to.equal('Face photo page');
   })
 
+  it('test passport hint presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const documentSelectionPassportHint = await documentSelection.documentSelectionHint.isDisplayed()
+  })
+
   it('test driving licence icon presence', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const title = await documentSelection.driversLicenseIcon.isDisplayed()
+    const drivingLicenceIcon = await documentSelection.drivingLicenceIcon.isDisplayed()
   })
 
-  it('test driving licence label', async () => {
+  it('test driving licence label text', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const documentSelectionDrivingLicenceLabel = await documentSelection.documentSelectionLabel.getText()
-    expect(documentSelectionDrivingLicenceLabel).to.equal('Driver\'s Licence');
+    const drivingLicenceLabel = await documentSelection.drivingLicenceLabel.getText()
+    expect(drivingLicenceLabel).to.equal('Driver\'s License');
+  })
+
+  it('test driving licence label presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const drivingLicenceLabel = await documentSelection.drivingLicenceLabel.isDisplayed()
+  })
+
+  it('test driving licence hint text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const drivingLicenceHint = await documentSelection.drivingLicenceHint.getText()
+    expect(drivingLicenceHint).to.equal('Front and back');
+  })
+
+  it('test driving licence hint presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const drivingLicenceHint = await documentSelection.drivingLicenceHint.isDisplayed()
   })
 
   it('test identity card icon presence', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const title = await documentSelection.identityCardIcon.isDisplayed()
+    const identityCardIcon = await documentSelection.identityCardIcon.isDisplayed()
+  })
+
+  it('test identity card label text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const identityCardLabel = await documentSelection.identityCardLabel.getText()
+    expect(identityCardLabel).to.equal('Identity Card');
+  })
+
+  it('test identity card label presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const identityCardLabel = await documentSelection.identityCardLabel.isDisplayed()
+  })
+
+  it('test identity card hint text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const identityCardHint = await documentSelection.identityCardHint.getText()
+    expect(identityCardHint).to.equal('Front and back');
+  })
+
+  it('test identity card hint presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    const identityCardHint = await documentSelection.identityCardHint.isDisplayed()
   })
 
   //document upload
