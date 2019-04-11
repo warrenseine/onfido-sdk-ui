@@ -7,7 +7,7 @@ class DocumentUpload extends Base{
     get crossDeviceHeader() { return this.$('.onfido-sdk-ui-crossDevice-SwitchDevice-header')}
     get crossDeviceSubMessage() { return this.$('.onfido-sdk-ui-crossDevice-SwitchDevice-submessage')}
     get crossDeviceArrow() { return this.$('.onfido-sdk-ui-crossDevice-SwitchDevice-chevron')}
-    get uploaderIcon() { return this.$('.onfido-sdk-ui-Theme-icon onfido-sdk-ui-Uploader-icon onfido-sdk-ui-Uploader-identityIcon')}
+    get uploaderIcon() { return this.$('div#onfido-mount div.onfido-sdk-ui-Uploader-instructions > span')}
     get uploaderInctructionsMessage() { return this.$('.onfido-sdk-ui-Uploader-instructionsCopy')}
     get uploaderBtn() { return this.$('.onfido-sdk-ui-Uploader-buttons')}
 

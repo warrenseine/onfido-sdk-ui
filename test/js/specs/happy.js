@@ -3,13 +3,13 @@ const expect = require('chai').expect;
 import {describe, it} from '../utils/mochaw'
 
 const options = {
-  pageObjects: ['DocumentSelection', 'Welcome', 'DocumentUpload']
+  pageObjects: ['DocumentSelection', 'Welcome', 'DocumentUpload', 'DocumentUploadConfirmation']
 }
 
 const localhostUrl = 'https://localhost:8080/'
 
 describe('Happy Paths',options, ({driver,$,pageObjects}) => {
-  const {documentSelection, welcome, documentUpload} = pageObjects
+  const {documentSelection, welcome, documentUpload, documentUploadConfirmation} = pageObjects
 
   it('test website title', async () => {
     await driver.get(localhostUrl)
@@ -29,7 +29,7 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     expect(welcomeSubtitle).to.equal('To open a bank account, we will need to verify your identity.' + '\n' + 'It will only take a couple of minutes.');
   })
 
-  it('test verifi identity button text', async () => {
+  it('test verify identity button text', async () => {
     await driver.get(localhostUrl)
     const verifyIdentityBtn = await welcome.primaryBtn.getText()
     expect(verifyIdentityBtn).to.equal('Verify Identity');
@@ -165,6 +165,116 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
   })
 
   //document upload
+  it('test title passport text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const passportTitle = await documentUpload.title.getText()
+    expect(passportTitle).to.equal('Passport photo page');
+  })
+
+  it('test title passport presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const passportTitle = await documentUpload.title.isDisplayed()
+  })
+
+  it('test cross device icon presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const crossDeviceIcon = await documentUpload.crossDeviceIcon.isDisplayed()
+  })
+
+  it('test cross device header text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const crossDeviceHeader = await documentUpload.crossDeviceHeader.getText()
+    expect(crossDeviceHeader).to.equal('Need to use your mobile to take photos?');
+  })
+
+  it('test cross device header presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const crossDeviceHeader = await documentUpload.crossDeviceHeader.isDisplayed()
+  })
+
+  it('test cross device submessage text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const crossDeviceSubMessage = await documentUpload.crossDeviceSubMessage.getText()
+    expect(crossDeviceSubMessage).to.equal('Securely continue verification on your mobile');
+  })
+
+  it('test cross device submessage presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const crossDeviceSubMessage = await documentUpload.crossDeviceSubMessage.isDisplayed()
+  })
+
+  it('test cross device arrow presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const crossDeviceArrow = await documentUpload.crossDeviceArrow.isDisplayed()
+  })
+
+  it('test uploader icon presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const uploaderIcon = await documentUpload.uploaderIcon.isDisplayed()
+  })
+
+  it('test uploader instruction text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const uploaderInctructionsMessage = await documentUpload.uploaderInctructionsMessage.getText()
+    expect(uploaderInctructionsMessage).to.equal('Upload passport photo page from your computer');
+  })
+
+  it('test uploader instruction presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const uploaderInctructionsMessage = await documentUpload.uploaderInctructionsMessage.isDisplayed()
+  })
+
+  it('test uploader button text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const uploaderBtn = await documentUpload.uploaderBtn.getText()
+    expect(uploaderBtn).to.equal('Upload file');
+  })
+
+  it('test uploader button presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const uploaderBtn = await documentUpload.uploaderBtn.isDisplayed()
+  })
+
+  it('test driving licence titles', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.drivingLicenceIcon.click()
+    const frontOfDrivingLicenceTitle = await documentUpload.title.getText()
+    expect(frontOfDrivingLicenceTitle).to.equal('Front of license');
+    const input = await documentUpload.upload
+    await input.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.pdf'))
+    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    await documentUploadConfirmation.confirmBtn.click()
+    const backOfDrivingLicenceTitle = await documentUpload.title.getText()
+    expect(backOfDrivingLicenceTitle).to.equal('Back of license');
+  })
+
   it('should upload a file', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
@@ -172,5 +282,4 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const input = await documentUpload.upload
     await input.sendKeys(path.join(__dirname,'../../features/helpers/resources/passport.jpg'))
   })
-
 })
