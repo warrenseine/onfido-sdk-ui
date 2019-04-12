@@ -19,20 +19,23 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
 
   it('test welcome screen title', async () => {
     await driver.get(localhostUrl)
-    const welcomeTitle = await welcome.welcomeTitle.getText()
-    expect(welcomeTitle).to.equal('Open your new bank account');
+    const welcomeTitleText = await welcome.welcomeTitle.getText()
+    expect(welcomeTitleText).to.equal('Open your new bank account');
+    const welcomeTitle = await welcome.welcomeTitle.isDisplayed()
   })
 
   it('test welcome screen subtitle', async () => {
     await driver.get(localhostUrl)
-    const welcomeSubtitle = await welcome.welcomeSubtitle.getText()
-    expect(welcomeSubtitle).to.equal('To open a bank account, we will need to verify your identity.' + '\n' + 'It will only take a couple of minutes.');
+    const welcomeSubtitleText = await welcome.welcomeSubtitle.getText()
+    expect(welcomeSubtitleText).to.equal('To open a bank account, we will need to verify your identity.' + '\n' + 'It will only take a couple of minutes.');
+    const welcomeSubtitle = await welcome.welcomeSubtitle.isDisplayed()
   })
 
-  it('test verify identity button text', async () => {
+  it('test verify identity button', async () => {
     await driver.get(localhostUrl)
-    const verifyIdentityBtn = await welcome.primaryBtn.getText()
-    expect(verifyIdentityBtn).to.equal('Verify Identity');
+    const verifyIdentityBtnText = await welcome.primaryBtn.getText()
+    expect(verifyIdentityBtnText).to.equal('Verify Identity');
+    const verifyIdentity = await welcome.primaryBtn.isDisplayed()
   })
 
   it('test footer is displayed', async () => {
@@ -41,32 +44,21 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
   })
 
   //document selection tests
-  it('test title text', async () => {
+  it('test document selection title', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const title = await documentSelection.title.getText()
-    expect(title).to.equal('Verify your identity');
+    const documentSelectionTitleText = await documentSelection.title.getText()
+    expect(documentSelectionTitleText).to.equal('Verify your identity');
+    const documentSelectionTitle = await documentSelection.title.isDisplayed()
   })
 
-  it('test title presence', async () => {
+  it('test document selection subtitle', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const title = await documentSelection.title.isDisplayed()
+    const documentSelectionSubtitleText = await documentSelection.subtitle.getText()
+    expect(documentSelectionSubtitleText).to.equal('Select the type of document you would like to upload');
+    const documentSelectionSubtitle = await documentSelection.subtitle.isDisplayed()
   })
-
-  // it('test subtitle text', async () => {
-  //   await driver.get(localhostUrl)
-  //   await welcome.primaryBtn.click()
-  //   const subtitle = await documentSelection.subtitle.getAttribute("div")
-  //   console.log(subtitle)
-  //   expect(subtitle).to.equal('Select the type of document you would like to upload');
-  // })
-  //
-  // it('test subtitle text', async () => {
-  //   await driver.get(localhostUrl)
-  //   await welcome.primaryBtn.click()
-  //   const subtitle = await documentSelection.subtitle.isDisplayed()
-  // })
 
   it('test passport icon presence', async () => {
     await driver.get(localhostUrl)
@@ -74,29 +66,19 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const passportIcon = await documentSelection.passportIcon.isDisplayed()
   })
 
-  it('test passport label text', async () => {
+  it('test passport label', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const documentSelectionPassportLabel = await documentSelection.documentSelectionLabel.getText()
-    expect(documentSelectionPassportLabel).to.equal('Passport');
+    const documentSelectionPassportLabelText = await documentSelection.documentSelectionLabel.getText()
+    expect(documentSelectionPassportLabelText).to.equal('Passport');
+    const documentSelectionPassport = await documentSelection.documentSelectionLabel.isDisplayed()
   })
 
-  it('test passport label presence', async () => {
+  it('test passport hint', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const documentSelectionPassportLabel = await documentSelection.documentSelectionLabel.isDisplayed()
-  })
-
-  it('test passport hint text', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    const documentSelectionPassportHint = await documentSelection.documentSelectionHint.getText()
-    expect(documentSelectionPassportHint).to.equal('Face photo page');
-  })
-
-  it('test passport hint presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
+    const documentSelectionPassportHintText = await documentSelection.documentSelectionHint.getText()
+    expect(documentSelectionPassportHintText).to.equal('Face photo page');
     const documentSelectionPassportHint = await documentSelection.documentSelectionHint.isDisplayed()
   })
 
@@ -106,29 +88,20 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const drivingLicenceIcon = await documentSelection.drivingLicenceIcon.isDisplayed()
   })
 
-  it('test driving licence label text', async () => {
+  it('test driving licence label', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const drivingLicenceLabel = await documentSelection.drivingLicenceLabel.getText()
-    expect(drivingLicenceLabel).to.equal('Driver\'s License');
-  })
-
-  it('test driving licence label presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
+    const drivingLicenceLabelText = await documentSelection.drivingLicenceLabel.getText()
+    expect(drivingLicenceLabelText).to.equal('Driver\'s License');
     const drivingLicenceLabel = await documentSelection.drivingLicenceLabel.isDisplayed()
   })
 
-  it('test driving licence hint text', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    const drivingLicenceHint = await documentSelection.drivingLicenceHint.getText()
-    expect(drivingLicenceHint).to.equal('Front and back');
-  })
 
-  it('test driving licence hint presence', async () => {
+  it('test driving licence hint', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
+    const drivingLicenceHintText = await documentSelection.drivingLicenceHint.getText()
+    expect(drivingLicenceHintText).to.equal('Front and back');
     const drivingLicenceHint = await documentSelection.drivingLicenceHint.isDisplayed()
   })
 
@@ -138,46 +111,31 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const identityCardIcon = await documentSelection.identityCardIcon.isDisplayed()
   })
 
-  it('test identity card label text', async () => {
+  it('test identity card label', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const identityCardLabel = await documentSelection.identityCardLabel.getText()
-    expect(identityCardLabel).to.equal('Identity Card');
-  })
-
-  it('test identity card label presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
+    const identityCardLabelText = await documentSelection.identityCardLabel.getText()
+    expect(identityCardLabelText).to.equal('Identity Card');
     const identityCardLabel = await documentSelection.identityCardLabel.isDisplayed()
   })
 
-  it('test identity card hint text', async () => {
+  it('test identity card hint', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
-    const identityCardHint = await documentSelection.identityCardHint.getText()
-    expect(identityCardHint).to.equal('Front and back');
-  })
-
-  it('test identity card hint presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
+    const identityCardHintText = await documentSelection.identityCardHint.getText()
+    expect(identityCardHintText).to.equal('Front and back');
     const identityCardHint = await documentSelection.identityCardHint.isDisplayed()
   })
 
   //document upload
-  it('test title passport text', async () => {
+  it('test document upload title for passport', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
-    const passportTitle = await documentUpload.title.getText()
-    expect(passportTitle).to.equal('Passport photo page');
-  })
-
-  it('test title passport presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.passportIcon.click()
+    const passportTitleText = await documentUpload.title.getText()
+    expect(passportTitleText).to.equal('Passport photo page');
     const passportTitle = await documentUpload.title.isDisplayed()
+
   })
 
   it('test cross device icon presence', async () => {
@@ -187,33 +145,21 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const crossDeviceIcon = await documentUpload.crossDeviceIcon.isDisplayed()
   })
 
-  it('test cross device header text', async () => {
+  it('test cross device header', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
-    const crossDeviceHeader = await documentUpload.crossDeviceHeader.getText()
-    expect(crossDeviceHeader).to.equal('Need to use your mobile to take photos?');
-  })
-
-  it('test cross device header presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.passportIcon.click()
+    const crossDeviceHeaderText = await documentUpload.crossDeviceHeader.getText()
+    expect(crossDeviceHeaderText).to.equal('Need to use your mobile to take photos?');
     const crossDeviceHeader = await documentUpload.crossDeviceHeader.isDisplayed()
   })
 
-  it('test cross device submessage text', async () => {
+  it('test cross device submessage', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
-    const crossDeviceSubMessage = await documentUpload.crossDeviceSubMessage.getText()
-    expect(crossDeviceSubMessage).to.equal('Securely continue verification on your mobile');
-  })
-
-  it('test cross device submessage presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.passportIcon.click()
+    const crossDeviceSubMessageText = await documentUpload.crossDeviceSubMessage.getText()
+    expect(crossDeviceSubMessageText).to.equal('Securely continue verification on your mobile');
     const crossDeviceSubMessage = await documentUpload.crossDeviceSubMessage.isDisplayed()
   })
 
@@ -231,33 +177,21 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const uploaderIcon = await documentUpload.uploaderIcon.isDisplayed()
   })
 
-  it('test uploader instruction text', async () => {
+  it('test uploader instruction', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
-    const uploaderInstructionsMessage = await documentUpload.uploaderInstructionsMessage.getText()
-    expect(uploaderInstructionsMessage).to.equal('Upload passport photo page from your computer');
-  })
-
-  it('test uploader instruction presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.passportIcon.click()
+    const uploaderInstructionsMessageText = await documentUpload.uploaderInstructionsMessage.getText()
+    expect(uploaderInstructionsMessageText).to.equal('Upload passport photo page from your computer');
     const uploaderInstructionsMessage = await documentUpload.uploaderInstructionsMessage.isDisplayed()
   })
 
-  it('test uploader button text', async () => {
+  it('test uploader button', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
-    const uploaderBtn = await documentUpload.uploaderBtn.getText()
-    expect(uploaderBtn).to.equal('Upload file');
-  })
-
-  it('test uploader button presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.passportIcon.click()
+    const uploaderBtnText = await documentUpload.uploaderBtn.getText()
+    expect(uploaderBtnText).to.equal('Upload file');
     const uploaderBtn = await documentUpload.uploaderBtn.isDisplayed()
   })
 
@@ -284,7 +218,7 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     expect(checkReadabilityText).to.equal('Check readability');
   })
 
-  it('test check readability text', async () => {
+  it('test check readability', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
@@ -293,17 +227,9 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
     const checkReadabilityText = await documentUpload.title.getText()
     expect(checkReadabilityText).to.equal('Check readability');
+    const checkReadability = await documentUpload.title.isDisplayed()
   })
 
-  it('test check readability presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.passportIcon.click()
-    const uploadFront = await documentUpload.upload
-    await uploadFront.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.png'))
-    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
-    const checkReadabilityText = await documentUpload.title.isDisplayed()
-  })
 
   it('test driving licence titles', async () => {
     await driver.get(localhostUrl)
@@ -367,8 +293,9 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
     await documentUpload.crossDeviceIcon.click()
-    const continueVerificationOnMobileTitle = await crossDeviceIntro.crossDeviceIntroTitle.getText()
-    expect(continueVerificationOnMobileTitle).to.equal('Continue verification on your mobile');
+    const continueVerificationOnMobileTitleText = await crossDeviceIntro.crossDeviceIntroTitle.getText()
+    expect(continueVerificationOnMobileTitleText).to.equal('Continue verification on your mobile');
+    const continueVerificationOnMobileTitle = await crossDeviceIntro.crossDeviceIntroTitle.isDisplayed()
   })
 
   it('test cross device intro icons presence', async () => {
@@ -386,21 +313,14 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
     await documentUpload.crossDeviceIcon.click()
-    const smsMessage = await crossDeviceIntro.smsMessage.getText()
-    expect(smsMessage).to.equal('We\’ll SMS a secure link to your mobile (no app download required)');
-    const takePhotosMessage = await crossDeviceIntro.takePhotosMessage.getText()
-    expect(takePhotosMessage).to.equal('We\’ll walk you through taking the photos');
-    const returnToComputerMessage = await crossDeviceIntro.returnToComputerMessage.getText()
-    expect(returnToComputerMessage).to.equal('Return to your computer to complete your verification');
-  })
-
-  it('test cross device intro messages presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.passportIcon.click()
-    await documentUpload.crossDeviceIcon.click()
+    const smsMessageText = await crossDeviceIntro.smsMessage.getText()
+    expect(smsMessageText).to.equal('We\’ll SMS a secure link to your mobile (no app download required)');
     const smsMessage = await crossDeviceIntro.smsMessage.isDisplayed()
+    const takePhotosMessageText = await crossDeviceIntro.takePhotosMessage.getText()
+    expect(takePhotosMessageText).to.equal('We\’ll walk you through taking the photos');
     const takePhotosMessage = await crossDeviceIntro.takePhotosMessage.isDisplayed()
+    const returnToComputerMessageText = await crossDeviceIntro.returnToComputerMessage.getText()
+    expect(returnToComputerMessageText).to.equal('Return to your computer to complete your verification');
     const returnToComputerMessage = await crossDeviceIntro.returnToComputerMessage.isDisplayed()
   })
 
@@ -409,16 +329,11 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
     await documentUpload.crossDeviceIcon.click()
-    const letsStartButton = await crossDeviceIntro.letsStartButton.getText()
-    expect(letsStartButton).to.equal('Let\’s start');
-  })
-
-  it('test cross device intro button presence', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.passportIcon.click()
-    await documentUpload.crossDeviceIcon.click()
+    const letsStartButtonText = await crossDeviceIntro.letsStartButton.getText()
+    expect(letsStartButtonText).to.equal('Let\’s start');
     const letsStartButton = await crossDeviceIntro.letsStartButton.isDisplayed()
   })
+
+  //CROSS DEVICE SCREEN TESTS
 
 })
