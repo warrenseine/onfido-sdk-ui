@@ -3,13 +3,13 @@ const expect = require('chai').expect;
 import {describe, it} from '../utils/mochaw'
 
 const options = {
-  pageObjects: ['DocumentSelection', 'Welcome', 'DocumentUpload', 'DocumentUploadConfirmation']
+  pageObjects: ['DocumentSelection', 'Welcome', 'DocumentUpload', 'DocumentUploadConfirmation', 'CrossDeviceIntro']
 }
 
 const localhostUrl = 'https://localhost:8080/'
 
 describe('Happy Paths',options, ({driver,$,pageObjects}) => {
-  const {documentSelection, welcome, documentUpload, documentUploadConfirmation} = pageObjects
+  const {documentSelection, welcome, documentUpload, documentUploadConfirmation, crossDeviceIntro} = pageObjects
 
   it('test website title', async () => {
     await driver.get(localhostUrl)
@@ -361,4 +361,46 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     expect(backOfIdentityCardInstructionMessage).to.equal('Upload back of card from your computer');
   })
 
+  // CROSS DEVICE INTRO
+  it('test cross device intro screen title text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    await documentUpload.crossDeviceIcon.click()
+    const continueVerificationOnMobileTitle = await crossDeviceIntro.crossDeviceIntroTitle.getText()
+    expect(continueVerificationOnMobileTitle).to.equal('Continue verification on your mobile');
+  })
+
+  it('test cross device intro icons presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    await documentUpload.crossDeviceIcon.click()
+    const smsIcon = await crossDeviceIntro.smsIcon.isDisplayed()
+    const takePhotosIcon = await crossDeviceIntro.takePhotosIcon.isDisplayed()
+    const returnToComputerIcon = await crossDeviceIntro.returnToComputerIcon.isDisplayed()
+  })
+
+  it('test cross device intro messages texts', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    await documentUpload.crossDeviceIcon.click()
+    const smsMessage = await crossDeviceIntro.smsMessage.getText()
+    expect(smsMessage).to.equal('We\’ll SMS a secure link to your mobile (no app download required)');
+    const takePhotosMessage = await crossDeviceIntro.takePhotosMessage.getText()
+    expect(takePhotosMessage).to.equal('We\’ll walk you through taking the photos');
+    const returnToComputerMessage = await crossDeviceIntro.returnToComputerMessage.getText()
+    expect(returnToComputerMessage).to.equal('Return to your computer to complete your verification');
+  })
+
+  it('test cross device intro messages presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    await documentUpload.crossDeviceIcon.click()
+    const smsMessage = await crossDeviceIntro.smsMessage.isDisplayed()
+    const takePhotosMessage = await crossDeviceIntro.takePhotosMessage.isDisplayed()
+    const returnToComputerMessage = await crossDeviceIntro.returnToComputerMessage.isDisplayed()
+  })
 })
