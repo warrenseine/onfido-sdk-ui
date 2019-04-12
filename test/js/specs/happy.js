@@ -235,15 +235,15 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
-    const uploaderInctructionsMessage = await documentUpload.uploaderInctructionsMessage.getText()
-    expect(uploaderInctructionsMessage).to.equal('Upload passport photo page from your computer');
+    const uploaderInstructionsMessage = await documentUpload.uploaderInstructionsMessage.getText()
+    expect(uploaderInstructionsMessage).to.equal('Upload passport photo page from your computer');
   })
 
   it('test uploader instruction presence', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
     await documentSelection.passportIcon.click()
-    const uploaderInctructionsMessage = await documentUpload.uploaderInctructionsMessage.isDisplayed()
+    const uploaderInstructionsMessage = await documentUpload.uploaderInstructionsMessage.isDisplayed()
   })
 
   it('test uploader button text', async () => {
@@ -261,20 +261,6 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const uploaderBtn = await documentUpload.uploaderBtn.isDisplayed()
   })
 
-  it('test driving licence titles', async () => {
-    await driver.get(localhostUrl)
-    await welcome.primaryBtn.click()
-    await documentSelection.drivingLicenceIcon.click()
-    const frontOfDrivingLicenceTitle = await documentUpload.title.getText()
-    expect(frontOfDrivingLicenceTitle).to.equal('Front of license');
-    const input = await documentUpload.upload
-    await input.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.pdf'))
-    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
-    await documentUploadConfirmation.confirmBtn.click()
-    const backOfDrivingLicenceTitle = await documentUpload.title.getText()
-    expect(backOfDrivingLicenceTitle).to.equal('Back of license');
-  })
-
   it('should upload a file', async () => {
     await driver.get(localhostUrl)
     await welcome.primaryBtn.click()
@@ -282,4 +268,97 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const input = await documentUpload.upload
     await input.sendKeys(path.join(__dirname,'../../features/helpers/resources/passport.jpg'))
   })
+
+  it('test two-sided document upload', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.drivingLicenceIcon.click()
+    const uploadFront = await documentUpload.upload
+    await uploadFront.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.png'))
+    const waitForFrontUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    await documentUploadConfirmation.confirmBtn.click()
+    const uploadBack = await documentUpload.upload
+    await uploadBack.sendKeys(path.join(__dirname,'../../features/helpers/resources/back_driving_licence.jpg'))
+    const waitForBackUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    const checkReadabilityText = await documentUpload.title.getText()
+    expect(checkReadabilityText).to.equal('Check readability');
+  })
+
+  it('test check readability text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const uploadFront = await documentUpload.upload
+    await uploadFront.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.png'))
+    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    const checkReadabilityText = await documentUpload.title.getText()
+    expect(checkReadabilityText).to.equal('Check readability');
+  })
+
+  it('test check readability presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    const uploadFront = await documentUpload.upload
+    await uploadFront.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.png'))
+    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    const checkReadabilityText = await documentUpload.title.isDisplayed()
+  })
+
+  it('test driving licence titles', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.drivingLicenceIcon.click()
+    const frontOfDrivingLicenceTitle = await documentUpload.title.getText()
+    expect(frontOfDrivingLicenceTitle).to.equal('Front of driver\'s license');
+    const input = await documentUpload.upload
+    await input.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.pdf'))
+    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    await documentUploadConfirmation.confirmBtn.click()
+    const backOfDrivingLicenceTitle = await documentUpload.title.getText()
+    expect(backOfDrivingLicenceTitle).to.equal('Back of driver\'s license');
+  })
+
+  it('test driving licence instruction messages', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.drivingLicenceIcon.click()
+    const frontOfDrivingLicenceInstructionMessage = await documentUpload.uploaderInstructionsMessage.getText()
+    expect(frontOfDrivingLicenceInstructionMessage).to.equal('Upload front of license from your computer');
+    const input = await documentUpload.upload
+    await input.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.pdf'))
+    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    await documentUploadConfirmation.confirmBtn.click()
+    const backOfDrivingLicenceInstructionMessage = await documentUpload.uploaderInstructionsMessage.getText()
+    expect(backOfDrivingLicenceInstructionMessage).to.equal('Upload back of license from your computer');
+  })
+
+  it('test identity card titles', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.identityCardIcon.click()
+    const frontOfIdentityCardTitle = await documentUpload.title.getText()
+    expect(frontOfIdentityCardTitle).to.equal('Front of identity card');
+    const input = await documentUpload.upload
+    await input.sendKeys(path.join(__dirname,'../../features/helpers/resources/national_identity_card.jpg'))
+    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    await documentUploadConfirmation.confirmBtn.click()
+    const backOfIdentityCardTitle = await documentUpload.title.getText()
+    expect(backOfIdentityCardTitle).to.equal('Back of identity card');
+  })
+
+  it('test identity card instruction messages', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.identityCardIcon.click()
+    const frontOfIdentityCardInstructionMessage = await documentUpload.uploaderInstructionsMessage.getText()
+    expect(frontOfIdentityCardInstructionMessage).to.equal('Upload front of card from your computer');
+    const input = await documentUpload.upload
+    await input.sendKeys(path.join(__dirname,'../../features/helpers/resources/uk_driving_licence.pdf'))
+    const waitForUploadToFinish = await documentUploadConfirmation.waitForUploadToFinish
+    await documentUploadConfirmation.confirmBtn.click()
+    const backOfIdentityCardInstructionMessage = await documentUpload.uploaderInstructionsMessage.getText()
+    expect(backOfIdentityCardInstructionMessage).to.equal('Upload back of card from your computer');
+  })
+
 })

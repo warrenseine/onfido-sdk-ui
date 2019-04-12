@@ -8,16 +8,8 @@ class DocumentUploadConfirmation extends Base{
 
   get waitForUploadToFinish() { return (async ()=>{
     const confirmBtn = await this.$('div#onfido-mount button.onfido-sdk-ui-Confirm-btn-primary.onfido-sdk-ui-Button-button.onfido-sdk-ui-Button-button-primary')
-    await driver.wait(until.elementIsVisible(confirmBtn),2000);
+    await driver.wait(until.elementIsVisible(confirmBtn),5000);
   })}
-
-  get upload() { return (async ()=>{
-    const input = await this.$('.onfido-sdk-ui-CustomFileInput-input')
-    await this.driver.executeScript(function(el) {
-      el.setAttribute('style','display: block')
-    },input)
-    return input
-  })()}
 
   copy = (lang="en") =>
     require(`../../../src/locales/${lang}.json`)
