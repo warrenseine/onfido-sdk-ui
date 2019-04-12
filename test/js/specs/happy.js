@@ -403,4 +403,22 @@ describe('Happy Paths',options, ({driver,$,pageObjects}) => {
     const takePhotosMessage = await crossDeviceIntro.takePhotosMessage.isDisplayed()
     const returnToComputerMessage = await crossDeviceIntro.returnToComputerMessage.isDisplayed()
   })
+
+  it('test cross device intro button text', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    await documentUpload.crossDeviceIcon.click()
+    const letsStartButton = await crossDeviceIntro.letsStartButton.getText()
+    expect(letsStartButton).to.equal('Let\’s start');
+  })
+
+  it('test cross device intro button presence', async () => {
+    await driver.get(localhostUrl)
+    await welcome.primaryBtn.click()
+    await documentSelection.passportIcon.click()
+    await documentUpload.crossDeviceIcon.click()
+    const letsStartButton = await crossDeviceIntro.letsStartButton.isDisplayed()
+  })
+
 })
