@@ -1,4 +1,4 @@
-# Onfido SDK UI Layer
+# Onfido SDK UI Layer BLAHA BLA
 
 [![Build Status](https://travis-ci.org/onfido/onfido-sdk-ui.svg?branch=master)](https://travis-ci.org/onfido/onfido-sdk-ui)
 
