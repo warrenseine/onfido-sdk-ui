@@ -3,6 +3,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 import EventEmitter from 'eventemitter2'
 import countries from 'react-phone-number-input/modules/countries'
 
+import { fetchUrlsFromJWT } from '~utils/jwt'
 import { store, actions } from './core'
 import Modal from './components/Modal'
 import Router from './components/Router'
@@ -83,6 +84,7 @@ const noOp = ()=>{}
 
 const defaults = {
   token: 'some token',
+  urls: { onfido_api_v2_base_url: 'https://api.onfido.com/v2', 'onfido_api_v3_base_url': 'https://api.onfido.com/v3'},
   containerId: 'onfido-mount',
   onComplete: noOp
 }
@@ -121,6 +123,7 @@ const validateSmsCountryCode = (smsNumberCountryCode) => {
 export const init = (opts) => {
   console.log("onfido_sdk_version", process.env.SDK_VERSION)
   Tracker.install()
+
   const options = formatOptions({ ...defaults, ...opts, events })
   deprecationWarnings(options)
 
@@ -140,8 +143,23 @@ export const init = (opts) => {
     setOptions (changedOptions) {
       const oldOptions = this.options
       this.options = formatOptions({...this.options,...changedOptions});
-      rebindOnComplete(oldOptions, this.options);
-      this.element = onfidoRender( this.options, containerEl, this.element )
+
+      // const jwt_urls = {
+      //   urls: {
+      //     onfido_api_v2_base_url: 'https://api.us.onfido.com/v2',
+      //     onfido_api_v3_base_url: 'https://api.us.onfido.com/v3'
+      //   }
+      // }
+      const jwt_urls = {urls: fetchUrlsFromJWT(changedOptions.token)}
+
+      if (jwt_urls.urls === null) {
+        console.log("WARN: Using JWT that does not specify urls")
+      }
+
+      this.optionsWithUrls = {...options, ...jwt_urls}
+
+      rebindOnComplete(oldOptions, this.optionsWithUrls);
+      this.element = onfidoRender( this.optionsWithUrls, containerEl, this.element )
       return this.options;
     },
 

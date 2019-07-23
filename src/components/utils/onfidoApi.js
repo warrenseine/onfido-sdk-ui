@@ -10,13 +10,14 @@ const formatError = ({response, status}, onError) => {
   }
 }
 
-export const uploadDocument = (data, token, onSuccess, onError) => {
+export const uploadDocument = (urls, data, token, onSuccess, onError) => {
   const {validations, ...other} = data
   data = {
     ...other,
     sdk_validations: JSON.stringify(validations)
   }
-  const endpoint = `${process.env.ONFIDO_API_URL}/v2/documents`
+  const endpoint = `${urls.onfido_api_v2_base_url}/documents`
+  console.log("Uploading document to endpoint", endpoint)
   sendFile(endpoint, data, token, onSuccess, onError)
 }
 

@@ -70,7 +70,7 @@ const getToken = function(onSuccess) {
       const data = JSON.parse(request.responseText)
       // Only log the applicant ID in development - it is sensitive data
       console.log("Applicant ID: " + data.applicant_id)
-      onSuccess(data.message)
+      onSuccess("XXX") // THIS IS THE PLACE TO PUT YOUR POC JWT
     }
   }
   request.send()

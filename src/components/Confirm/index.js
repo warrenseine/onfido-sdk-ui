@@ -182,7 +182,7 @@ class Confirm extends Component {
   }
 
   uploadCaptureToOnfido = () => {
-    const {capture, method, side, token, documentType, language} = this.props
+    const {urls, capture, method, side, token, documentType, language} = this.props
     this.startTime = performance.now()
     sendEvent('Starting upload', {method})
     this.setState({uploadInProgress: true})
@@ -199,7 +199,7 @@ class Confirm extends Component {
       }
       const issuingCountry = isPoA ? { 'issuing_country': this.props.country || 'GBR' } : {}
       const data = { file: blob, type, side, validations, ...issuingCountry}
-      uploadDocument(data, token, this.onApiSuccess, this.onApiError)
+      uploadDocument(urls, data, token, this.onApiSuccess, this.onApiError)
     }
     else if (method === 'face') {
       if (variant === 'video') {
