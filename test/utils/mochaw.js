@@ -1,9 +1,13 @@
 import mocha from 'mocha';
-const {By} = require('selenium-webdriver');
+const {By, until} = require('selenium-webdriver');
 const expect = require('chai').expect
 
-const $driver = driver => selector =>
-  driver.findElement(By.css(selector))
+const $driver = driver => (selector, wait) => {
+  if (wait) {
+    return driver.wait(until.elementLocated(By.css(selector)))
+  }
+  return driver.findElement(By.css(selector))
+}
 
 //It wrapper of async functions
 const asyncTestWrap = fn => done => {

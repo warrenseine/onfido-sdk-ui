@@ -1,15 +1,15 @@
 import BasePage from './BasePage.js'
 const path = require('path')
 import { verifyElementCopy } from '../utils/mochaw'
-import { By, until } from 'selenium-webdriver'
 
 class DocumentUpload extends BasePage {
+  wait = true
   get crossDeviceIcon() { return this.$('.onfido-sdk-ui-crossDevice-SwitchDevice-icon')}
   get crossDeviceHeader() { return this.$('.onfido-sdk-ui-crossDevice-SwitchDevice-header')}
   get crossDeviceSubMessage() { return this.$('.onfido-sdk-ui-crossDevice-SwitchDevice-submessage')}
   get crossDeviceArrow() { return this.$('.onfido-sdk-ui-crossDevice-SwitchDevice-chevron')}
   get uploaderIcon() { return this.$('.onfido-sdk-ui-Theme-icon')}
-  get uploaderInstructionsMessage() { return this.$('.onfido-sdk-ui-Uploader-instructionsCopy')}
+  get uploaderInstructionsMessage() { return this.$('.onfido-sdk-ui-Uploader-instructionsCopy', this.wait)}
   get uploaderBtn() { return this.$('.onfido-sdk-ui-Uploader-buttons')}
   getUploadInput() { return (async ()=>{
     const input = this.$('.onfido-sdk-ui-CustomFileInput-input')
@@ -102,10 +102,6 @@ class DocumentUpload extends BasePage {
   async verifySelfieUploadInstructions(copy) {
     const documentUploadStrings = copy.capture
     verifyElementCopy(this.uploaderInstructionsMessage, documentUploadStrings.face.instructions)
-  }
-
-  async waitForUploaderInstructionsMessageToBeLocated() {
-    this.driver.wait(until.elementLocated(By.css('.onfido-sdk-ui-Uploader-instructionsCopy')))
   }
 }
 

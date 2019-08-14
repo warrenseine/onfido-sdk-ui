@@ -1,10 +1,10 @@
 import BasePage from './BasePage.js'
 import { verifyElementCopy } from '../utils/mochaw'
-import { By, until } from 'selenium-webdriver'
 
 class CrossDeviceMobileConnected extends BasePage {
+  wait = true
   get icon() { return this.$('.onfido-sdk-ui-Theme-icon')}
-  get tipsHeader() { return this.$('.onfido-sdk-ui-Theme-header')}
+  get tipsHeader() { return this.$('.onfido-sdk-ui-Theme-header', this.wait)}
   get tips() { return this.$('.onfido-sdk-ui-crossDevice-MobileConnected-helpList li')}
   get cancel() { return this.$('.onfido-sdk-ui-crossDevice-MobileConnected-cancel')}
 
@@ -24,10 +24,6 @@ class CrossDeviceMobileConnected extends BasePage {
         mobileNotificationSentStrings.mobile_connected.tips[`item_${index + 1}`])
     })
     verifyElementCopy(this.cancel, connectedToMobileScreenCancelString)
-  }
-
-  async waitForTipsHeaderToBeLocated() {
-    this.driver.wait(until.elementLocated(By.css('.onfido-sdk-ui-Theme-header')))
   }
 }
 

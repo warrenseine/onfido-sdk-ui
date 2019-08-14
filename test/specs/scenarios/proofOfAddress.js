@@ -31,7 +31,6 @@ export const proofOfAddressScenarios = async(lang='en') => {
       documentUpload,
       crossDeviceIntro,
       crossDeviceLink,
-      crossDeviceMobileConnected,
       crossDeviceSubmit,
       poaDocumentSelection,
       poaGuidance,
@@ -161,15 +160,12 @@ export const proofOfAddressScenarios = async(lang='en') => {
       crossDeviceIntro.continueButton.click()
       copyCrossDeviceLinkAndOpenInNewTab()
       switchBrowserTab(0)
-      crossDeviceMobileConnected.waitForTipsHeaderToBeLocated()
       switchBrowserTab(1)
-      documentUpload.waitForUploaderInstructionsMessageToBeLocated()
       uploadFileAndClickConfirmButton(documentUpload, confirm, 'passport.jpg')
       documentSelector.clickOnPassportIcon()
       uploadFileAndClickConfirmButton(documentUpload, confirm, 'passport.jpg')
       uploadFileAndClickConfirmButton(documentUpload, confirm, 'face.jpeg')
       switchBrowserTab(0)
-      crossDeviceSubmit.waitForDocumentUploadedMessageToBeLocated()
       crossDeviceSubmit.clickOnSubmitVerificationButton()
       verificationComplete.verifyUIElements(copy)
     })
