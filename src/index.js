@@ -28,6 +28,7 @@ const defaults = {
     sync_url: `${process.env.DESKTOP_SYNC_URL}`
   },
   containerId: 'onfido-mount',
+  noBrand: process.env.NO_BRAND,
   onComplete: noOp,
   onError: noOp
 }
@@ -35,11 +36,12 @@ const defaults = {
 const isStep = val => typeof val === 'object'
 const formatStep = typeOrStep => isStep(typeOrStep) ?  typeOrStep : {type:typeOrStep}
 
-const formatOptions = ({steps, smsNumberCountryCode, ...otherOptions}) => ({
+const formatOptions = ({steps, smsNumberCountryCode, noBrand, ...otherOptions}) => ({
   ...otherOptions,
   urls: jwtUrls(otherOptions),
   smsNumberCountryCode: validateSmsCountryCode(smsNumberCountryCode),
-  steps: (steps || ['welcome','document','face','complete']).map(formatStep)
+  steps: (steps || ['welcome','document','face','complete']).map(formatStep),
+  noBrand: noBrand === 'true' // command-line input comes in as a string, converting to boolean
 })
 
 const experimentalFeatureWarnings = ({steps}) => {

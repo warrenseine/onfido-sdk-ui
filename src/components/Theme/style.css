@@ -77,6 +77,15 @@
   }
 }
 
+.footerNoLogo {
+  width: 100%;
+  height: @footer-height;
+  margin-top: 16*@unit;
+  flex: 0 0 auto;
+
+  z-index: 1;
+}
+
 .thickWrapper {
   margin: 0 @large-text-margin;
   @media (--small-viewport) {

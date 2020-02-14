@@ -17,7 +17,7 @@ class StepsRouter extends Component {
   currentComponent = () => this.props.componentsList[this.props.step]
 
   render = () => {
-    const { back, disableNavigation, isFullScreen, options: {...globalUserOptions}, ...otherProps} = this.props
+    const { options: { noBrand }, back, disableNavigation, isFullScreen, options: {...globalUserOptions}, ...otherProps} = this.props
     const componentBlob = this.currentComponent()
     const CurrentComponent = componentBlob.component
     const options = componentBlob.step.options
@@ -37,7 +37,7 @@ class StepsRouter extends Component {
           <CurrentComponent {...{...options, ...globalUserOptions, ...otherProps, back}}
             trackScreen={this.trackScreen} />
         </div>
-        <div className={theme.footer} />
+        <div className={ noBrand ? theme.footerNoLogo : theme.footer} />
       </div>
     )
   }
