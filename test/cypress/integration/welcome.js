@@ -1,43 +1,30 @@
-import { localhostUrl } from '../../config.json'
+import { localhostUrl, supportedLanguages } from '../../config.json'
+import Welcome from '../pageobjects/Welcome.js';
 
-const options = {
-    pageObjects: ['BasePage', 'Welcome']
-  }
+supportedLanguages.forEach((lang) => {
 
+    describe(`Welcome Screen Tests in ${lang}`, function() {
+        const welcome = new Welcome()
+        const copy = welcome.copy(lang)
 
-describe('Welcome Screen Tests', options, ({pageObjects}), function() {
-    const { welcome } = pageObjects
+        it('should verify website title', function() {
+            cy.visit(localhostUrl + `?language=${lang}`)
+        })
 
-    it('should verify website title', function() {
-        cy.visit(localhostUrl)
-    })
+        it('should verify website title', function() {
+            cy.visit(localhostUrl) 
+            cy.title().should('eq', 'Onfido SDK Demo')
+        })
 
-    it('should verify website title', function() {
-        cy.visit(localhostUrl) 
-        cy.title().should('eq', 'Onfido SDK Demo')
-    })
+        it('should verify UI elements on the welcome screen', function() {
+            cy.visit(localhostUrl + `?language=${lang}`)
+            welcome.text().should('exist')
+            welcome.primaryBtn().should('exist').should('be.visible')
+            welcome.footer().should('exist').should('be.visible')
 
-    it('should verify UI elements on the welcome screen', function() {
-        cy.visit(localhostUrl)
-        cy.get(welcome.footer).should('exist')
+            welcome.verifyTitle(copy)
+            welcome.verifySubtitle(copy)
+            welcome.verifyIdentityButton(copy)
+        })
     })
 })
-
-
-// describe(`WELCOME SCREEN tests`) {
-
-//     it('should verify website title', async () => {
-//       driver.get(localhostUrl + `?language=${lang}`)
-//       const title = driver.getTitle()
-//       expect(title).to.equal('Onfido SDK Demo')
-//     })
-
-//     it('should verify UI elements on the welcome screen', async () => {
-//       driver.get(localhostUrl + `?language=${lang}`)
-//       welcome.verifyTitle(copy)
-//       welcome.verifySubtitle(copy)
-//       welcome.verifyIdentityButton(copy)
-//       welcome.verifyFooter(copy)
-//     })
-//   })
-
