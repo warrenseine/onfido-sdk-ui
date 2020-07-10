@@ -141,6 +141,7 @@
   },
   "dependencies": {
     "@babel/runtime-corejs3": "^7.8.7",
+    "@pact-foundation/pact": "^9.11.0",
     "@sentry/browser": "^5.14.2",
     "blueimp-load-image": "~2.29.0",
     "classnames": "~2.2.5",
