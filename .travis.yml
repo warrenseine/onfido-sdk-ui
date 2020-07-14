@@ -20,6 +20,7 @@ install:
 script:
   - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then audit-ci --moderate; fi
   - npm run build
+  - node ./scripts/publish_pact_files.js
   - if [ "$NODE_ENV" == "production" ]; then npm run bundlesize; fi
   - chmod ugo+x ./test.sh
   - ./test.sh
