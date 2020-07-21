@@ -1,17 +1,18 @@
-import webpack from 'webpack';
+import webpack from 'webpack'
 import packageJson from './package.json'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import TerserPlugin from 'terser-webpack-plugin';
-import autoprefixer from 'autoprefixer';
-import customMedia from 'postcss-custom-media';
-import url from 'postcss-url';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import TerserPlugin from 'terser-webpack-plugin'
+import autoprefixer from 'autoprefixer'
+import customMedia from 'postcss-custom-media'
+import url from 'postcss-url'
 import mapObject from 'object-loops/map'
 import mapKeys from 'object-loops/map-keys'
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
-import Visualizer from 'webpack-visualizer-plugin';
-import path from 'path';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import Visualizer from 'webpack-visualizer-plugin'
+import path from 'path'
 import nodeExternals from 'webpack-node-externals'
 
 // NODE_ENV can be one of: development | staging | test | production
@@ -282,6 +283,12 @@ const configDist = {
 
   plugins: [
     ...basePlugins('dist'),
+    new CopyPlugin({
+      patterns: [
+        { from: '../node_modules/@onfido/castor/core.css', to: './onfido-core.css' },
+        { from: '../node_modules/@onfido/castor/themes/day.css', to: './onfido-day-theme.css' },
+      ],
+    }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: 'onfido.[name].css',
