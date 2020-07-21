@@ -26,7 +26,8 @@ const baseRules = [
   {
     test: /\.jsx?$/,
     include: [
-      `${__dirname}/src`
+      `${__dirname}/src`,
+      `${__dirname}/node_modules/@onfido/castor`
     ],
     use: [
       'babel-loader'
