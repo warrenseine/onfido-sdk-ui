@@ -283,12 +283,6 @@ const configDist = {
 
   plugins: [
     ...basePlugins('dist'),
-    new CopyPlugin({
-      patterns: [
-        { from: '../node_modules/@onfido/castor/core.css', to: './onfido-core.css' },
-        { from: '../node_modules/@onfido/castor/themes/day.css', to: './onfido-day-theme.css' },
-      ],
-    }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: 'onfido.[name].css',
