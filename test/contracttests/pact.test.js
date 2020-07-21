@@ -1,14 +1,13 @@
 const path = require("path")
 const chai = require("chai")
 // const { Pact, Matchers } = require("@pact-foundation/pact")
-const { Pact, Matchers } = require("@pact-foundation/pact")
+const { Pact } = require("@pact-foundation/pact")
 const chaiAsPromised = require("chai-as-promised")
 const expect = chai.expect
 chai.use(chaiAsPromised)
-const { get } = require('axios')
 import axios from 'axios';
-const { after } = require("mocha")
-const { string } = Matchers
+//const { after } = require("mocha")
+//const { string } = Matchers
 
 // const get = require('../test/contracttests/get')
 
@@ -38,13 +37,18 @@ describe('Consumer Test', () => {
     }
   })))
 
-function getSdkToken() {
-  return axios.get('http://localhost:5555/sdk_token', headers)
-}
+
+  function getSdkToken() {
+    return axios.get('http://localhost:5555/sdk_token', {
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+  }
 
   it('OK response', () => {
-  getSdkToken()    
-  .then((response) => {
+    getSdkToken()
+    .then((response) => {
       expect(response.statusText).to.be.equal('OK')
     })
   })
