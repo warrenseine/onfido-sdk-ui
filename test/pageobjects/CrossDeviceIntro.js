@@ -8,7 +8,7 @@ class CrossDeviceIntro extends BasePage {
   async smsMessage() { return this.$('.onfido-sdk-ui-crossDevice-Intro-stageMessage-sms')}
   async takePhotosMessage() { return this.$('.onfido-sdk-ui-crossDevice-Intro-stageMessage-take-photos')}
   async returnToComputerMessage() { return this.$('.onfido-sdk-ui-crossDevice-Intro-stageMessage-return-to-computer')}
-  async continueButton() { return this.$('.onfido-sdk-ui-Button-button')}
+  async continueButton() { return this.$('[data-onfido-qa="cross-device-continue-btn"]')}
 
   async verifyTitle(copy) {
     const crossDeviceIntroStrings = copy.cross_device.intro

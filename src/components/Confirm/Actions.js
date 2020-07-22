@@ -10,6 +10,7 @@ const RetakeAction = localised(({ retakeAction, translate, btnSize }) => (
     variant='secondary'
     className={theme[`button-${btnSize}`]}
     onClick={retakeAction}
+    data-onfido-qa='redo-action-btn'
   >
     {translate('confirm.redo')}
   </Button>
@@ -21,6 +22,7 @@ const ConfirmAction = localised(({ confirmAction, isUploading, translate, error 
     className={theme['button-sm']}
     onClick={confirmAction}
     disabled={isUploading}
+    data-onfido-qa='confirm-action-btn'
   >
     { error.type === 'warn' ? translate('confirm.continue') : translate('confirm.confirm') }
   </Button>

@@ -72,6 +72,7 @@ class CrossDeviceSubmit extends Component {
               className={classNames(theme['button-centered'], theme['button-lg'])}
               onClick={this.handleSubmitButtonClick}
               disabled={this.state.isSubmitDisabled}
+              data-onfido-qa='cross-device-submit-btn'
             >
               {translate('cross_device.submit.action')}
             </Button>

@@ -53,6 +53,7 @@ const Recording = ({
           className={classNames(theme['button-centered'], theme['button-lg'])}
           disabled={disableInteraction}
           onClick={onNext}
+          data-onfido-qa='liveness-next-challenge-btn'
         >
           {translate('capture.liveness.challenges.next')}
         </Button>

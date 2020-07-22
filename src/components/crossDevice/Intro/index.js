@@ -52,6 +52,7 @@ const Intro = ({translate, nextStep, mobileConfig}) => {
           size='large'
           className={classNames(theme['button-centered'], theme['button-lg'])}
           onClick={nextStep}
+          data-onfido-qa='cross-device-continue-btn'
         >
           {translate(`cross_device.intro.action`)}
         </Button>
