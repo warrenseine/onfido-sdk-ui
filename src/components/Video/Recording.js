@@ -4,8 +4,9 @@ import { h } from 'preact'
 import Challenge from './Challenge'
 import type { ChallengeType } from './Challenge'
 import classNames from 'classnames'
-import Button from '../Button'
+import { Button } from '@onfido/castor'
 import style from './style.scss'
+import theme from '../Theme/style.scss'
 import { localised } from '../../locales'
 import type { LocalisedType } from '../../locales'
 
@@ -48,7 +49,8 @@ const Recording = ({
       {!isLastChallenge ? (
         <Button
           variant='primary'
-          sdkBtnClasses={['centered', 'lg']}
+          size='large'
+          className={classNames(theme['button-centered'], theme['button-lg'])}
           disabled={disableInteraction}
           onClick={onNext}
         >

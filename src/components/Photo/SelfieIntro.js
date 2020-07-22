@@ -2,7 +2,7 @@ import * as React from 'react'
 import { h, Component } from 'preact'
 import PageTitle from '../PageTitle'
 import classNames from 'classnames'
-import Button from '../Button'
+import { Button } from '@onfido/castor'
 import { localised } from '../../locales'
 import { trackComponent } from '../../Tracker'
 import withCrossDeviceWhenNoCamera from '../Capture/withCrossDeviceWhenNoCamera'
@@ -40,7 +40,8 @@ class Intro extends Component<Props, State> {
       <div className={theme.thickWrapper}>
         <Button
           variant='primary'
-          sdkBtnClasses={['centered', 'lg']}
+          size='large'
+          className={classNames(theme['button-centered'], theme['button-lg'])}
           onClick={nextStep}
         >
           {translate("continue")}

@@ -1,7 +1,7 @@
 import { h } from 'preact'
 import classNames from 'classnames'
 import PageTitle from '../../PageTitle'
-import Button from '../../Button'
+import { Button } from '@onfido/castor'
 import { trackComponent } from '../../../Tracker'
 import { componentsList } from '../../Router/StepComponentMap'
 import { localised } from '../../../locales'
@@ -49,7 +49,8 @@ const Intro = ({translate, nextStep, mobileConfig}) => {
       <div className={classNames(theme.thickWrapper, style.buttonContainer)}>
         <Button
           variant='primary'
-          sdkBtnClasses={['centered', 'lg']}
+          size='large'
+          className={classNames(theme['button-centered'], theme['button-lg'])}
           onClick={nextStep}
         >
           {translate(`cross_device.intro.action`)}

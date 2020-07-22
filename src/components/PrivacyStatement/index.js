@@ -1,8 +1,8 @@
 import { h, Component} from 'preact'
 import PageTitle from '../PageTitle'
-import Button from '../Button'
-import {sendScreen} from '../../Tracker'
-import {localised} from '../../locales'
+import { Button } from '@onfido/castor'
+import { sendScreen } from '../../Tracker'
+import { localised } from '../../locales'
 import theme from '../Theme/style.scss'
 import style from './style.scss'
 
@@ -32,7 +32,7 @@ class PrivacyStatement extends Component {
           <div>
             <div className={style.smallPrint}>
               { parseTranslatedTags('privacy.small_print', tagElement => (
-                 <a href={externalUrls[tagElement.type]} target='_blank'>{tagElement.text}</a>
+                <a href={externalUrls[tagElement.type]} target='_blank'>{tagElement.text}</a>
               ))}
             </div>
             <div className={style.actions}>
@@ -44,7 +44,7 @@ class PrivacyStatement extends Component {
               </Button>
               <Button
                 className={style.primary}
-                variant={["primary"]}
+                variant='primary'
                 onClick={actions.acceptTerms}
               >
                 {translate('privacy.continue')}

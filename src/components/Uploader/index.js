@@ -7,7 +7,7 @@ import { trackComponentAndMode } from '../../Tracker'
 import { localised } from '../../locales'
 import CustomFileInput from '../CustomFileInput'
 import PageTitle from '../PageTitle'
-import Button from '../Button'
+import { Button } from '@onfido/castor'
 import UploadError from './Error'
 import theme from '../Theme/style.scss'
 import style from './style.scss'
@@ -23,8 +23,12 @@ const MobileUploadArea = ({ onFileSelected, children, isPoA, translate }) =>
         capture
       >
         <Button
+          size='large'
           variant={isPoA ? 'secondary' : 'primary'}
-          sdkBtnClasses={isPoA ? ['sm'] : ['centered', 'lg']}
+          sdkBtnClasses={isPoA ?
+            theme['button-sm'] :
+            classNames(theme['button-centered'], theme['button-lg'])
+          }
         >
           {translate('capture.take_photo')}
         </Button>
@@ -34,7 +38,8 @@ const MobileUploadArea = ({ onFileSelected, children, isPoA, translate }) =>
           <CustomFileInput onChange={onFileSelected}>
             <Button
               variant='primary'
-              sdkBtnClasses={['sm']}
+              size='large'
+              className={theme['button-sm']}
             >
               {translate(`capture.upload_${isDesktop ? 'file' : 'document'}`)}
             </Button>
@@ -49,7 +54,8 @@ const PassportMobileUploadArea = ({ nextStep, children, translate }) =>
     <div className={style.buttons}>
       <Button
         variant='primary'
-        sdkBtnClasses={['centered', 'lg']}
+        size='large'
+        className={classNames(theme['button-centered'], theme['button-lg'])}
         onClick={nextStep}
       >
         {translate('capture.take_photo')}
@@ -72,8 +78,8 @@ const DesktopUploadArea = ({
       {!mobileFlow && ( // Hide for mobileFlow on desktop browser as `test` Node environment has restrictedXDevice set to false
         <Button
           variant='primary'
-          sdkBtnClasses={['centered', 'lg']}
-          className={style.crossDeviceButton}
+          size='large'
+          className={classNames(theme['button-centered'], theme['button-lg'], style.crossDeviceButton)}
           onClick={() => changeFlowTo('crossDeviceSteps')}
         >
           {translate('capture.switch_device')}

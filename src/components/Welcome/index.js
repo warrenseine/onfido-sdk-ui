@@ -24,11 +24,11 @@ const Welcome = ({title, descriptions, nextButton, nextStep, translate}) => {
           ))}
         </div>
         <Button
-          variant="primary"
-          size="large"
+          variant='primary'
+          size='large'
           className={classNames(theme['button-centered'], theme['button-lg'])}
           onClick={nextStep}
-          data-onfido-qa="welcome-next-btn"
+          data-onfido-qa='welcome-next-btn'
         >
           {welcomeNextButton}
         </Button>
