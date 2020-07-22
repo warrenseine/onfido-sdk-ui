@@ -18,7 +18,8 @@ const Permissions = ({onNext, translate}) => (
     </div>
     <div className={classNames(theme.thickWrapper, style.actions)}>
       <Button
-        variants={["centered", "primary", "lg"]}
+        variant='primary'
+        sdkBtnClasses={['centered', 'lg']}
         onClick={onNext}
       >
         {translate('webcam_permissions.enable_webcam')}

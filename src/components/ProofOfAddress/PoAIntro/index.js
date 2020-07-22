@@ -27,7 +27,8 @@ const PoAIntro = ({country, translate, parseTranslatedTags, nextStep}) => (
     </div>
     <div className={theme.thickWrapper}>
       <Button
-        variants={["primary", "centered", "lg"]}
+        variant='primary'
+        sdkBtnClasses={['centered', 'lg']}
         onClick={nextStep}
       >
         {translate('proof_of_address.intro.start')}

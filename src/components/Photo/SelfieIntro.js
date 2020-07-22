@@ -39,7 +39,8 @@ class Intro extends Component<Props, State> {
       <InstructionsPure listScreenReaderText={translate("capture.face.intro.accessibility.selfie_capture_tips")} instructions={instructions} />
       <div className={theme.thickWrapper}>
         <Button
-          variants={['primary', 'centered', 'lg']}
+          variant='primary'
+          sdkBtnClasses={['centered', 'lg']}
           onClick={nextStep}
         >
           {translate("continue")}

@@ -43,7 +43,8 @@ const Intro = ({ translate, parseTranslatedTags, nextStep }: Props) => (
     </div>
     <div className={theme.thickWrapper}>
       <Button
-        variants={['primary', 'centered', 'lg']}
+        variant='primary'
+        sdkBtnClasses={['centered', 'lg']}
         onClick={nextStep}
       >
         {translate('capture.liveness.intro.continue')}
