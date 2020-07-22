@@ -13,7 +13,7 @@ export default class PassportUploadImageGuide extends BasePage {
   async docGlareText() { return this.$('[data-onfido-qa="documentExampleLabelGlare"]')}
   async docExampleImgGood() { return this.$('.onfido-sdk-ui-Uploader-documentExampleImgGood')}
   async docIsGoodText() { return this.$('[data-onfido-qa="documentExampleLabelGood"]')}
-  async uploaderBtnText() { return this.$('.onfido-sdk-ui-Button-button-text')}
+  async uploaderBtnText() { return this.$('[data-onfido-qa="image-guide-doc-upload-btn"]')}
 
   async uploadInput() { return this.$('.onfido-sdk-ui-CustomFileInput-input') }
   async getUploadInput() {

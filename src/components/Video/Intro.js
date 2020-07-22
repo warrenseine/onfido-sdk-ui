@@ -47,6 +47,7 @@ const Intro = ({ translate, parseTranslatedTags, nextStep }: Props) => (
         size='large'
         className={classNames(theme['button-centered'], theme['button-lg'])}
         onClick={nextStep}
+        data-onfido-qa='liveness-continue-btn'
       >
         {translate('capture.liveness.intro.continue')}
       </Button>

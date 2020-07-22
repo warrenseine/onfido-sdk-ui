@@ -16,7 +16,8 @@ const UploadButton = localised(({ translate }) => (
   <Button
     variant='primary'
     size='large'
-    className={classNames(theme['button-centered'], theme['button-lg'])}>
+    className={classNames(theme['button-centered'], theme['button-lg'])}
+    data-onfido-qa='image-guide-doc-upload-btn'>
     {translate('image_quality_guide.next_step')}
   </Button>
 ))

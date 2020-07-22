@@ -12,7 +12,7 @@ class CrossDeviceLink extends BasePage {
   async qrCodeHelpHowToStep2() { return this.$('[data-onfido-qa="qrCodeHowToStep2"]') }
   async numberInputLabel() { return this.$('.onfido-sdk-ui-crossDevice-CrossDeviceLink-smsSection > .onfido-sdk-ui-crossDevice-CrossDeviceLink-label')}
   async numberInput() { return this.$('.onfido-sdk-ui-PhoneNumberInput-mobileInput')}
-  async sendLinkBtn() { return this.$('.onfido-sdk-ui-Button-button-text')}
+  async sendLinkBtn() { return this.$('.onfido-sdk-ui-crossDevice-CrossDeviceLink-btn')}
   async copyLinkInsteadLabel() { return this.$('.onfido-sdk-ui-crossDevice-CrossDeviceLink-copyLinkSection > .onfido-sdk-ui-crossDevice-CrossDeviceLink-label')}
   async copyToClipboardBtn() { return this.$('.onfido-sdk-ui-crossDevice-CrossDeviceLink-copyToClipboard')}
   async copyLinkTextContainer() { return this.$('.onfido-sdk-ui-crossDevice-CrossDeviceLink-linkText')}

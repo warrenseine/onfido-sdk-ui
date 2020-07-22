@@ -32,6 +32,7 @@ const PoAIntro = ({country, translate, parseTranslatedTags, nextStep}) => (
         size='large'
         className={classNames(theme['button-centered'], theme['button-lg'])}
         onClick={nextStep}
+        data-onfido-qa='poa-start-btn'
       >
         {translate('proof_of_address.intro.start')}
       </Button>

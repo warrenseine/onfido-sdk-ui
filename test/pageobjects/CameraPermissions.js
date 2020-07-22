@@ -4,7 +4,7 @@ import { verifyElementCopy } from '../utils/mochaw'
 class CameraPermissions extends BasePage {
   async instructions() { return this.$('.onfido-sdk-ui-CameraPermissions-Primer-instructions')}
   async graphic() { return this.$('.onfido-sdk-ui-CameraPermissions-Primer-graphic')}
-  async enableCameraButton() { return this.$('.onfido-sdk-ui-Button-button-text')}
+  async enableCameraButton() { return this.$('[data-onfido-qa="enable-camera-btn"]')}
 
   async verifyUIElementsOnTheCameraPermissionsScreen(copy) {
     const cameraPermissionsStrings = copy.webcam_permissions

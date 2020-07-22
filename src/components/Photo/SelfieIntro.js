@@ -43,6 +43,7 @@ class Intro extends Component<Props, State> {
           size='large'
           className={classNames(theme['button-centered'], theme['button-lg'])}
           onClick={nextStep}
+          data-onfido-qa='selfie-continue-btn'
         >
           {translate("continue")}
         </Button>

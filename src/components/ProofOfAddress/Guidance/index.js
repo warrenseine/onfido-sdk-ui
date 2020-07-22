@@ -32,6 +32,7 @@ const Guidance = ({translate, parseTranslatedTags, poaDocumentType, nextStep}) =
         size='large'
         className={classNames(theme['button-centered'], theme['button-lg'])}
         onClick={nextStep}
+        data-onfido-qa='poa-continue-btn'
       >
         {translate('proof_of_address.guidance.continue')}
       </Button>

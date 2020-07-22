@@ -4,7 +4,7 @@ import { verifyElementCopy } from '../utils/mochaw'
 class SelfieIntro extends BasePage {
   async selfieIcon() { return this.$('.onfido-sdk-ui-Photo-selfieIcon')}
   async glassesIcon() { return this.$('.onfido-sdk-ui-Photo-glassesIcon')}
-  async continueButton() { return this.$('.onfido-sdk-ui-Button-button-text')}
+  async continueButton() { return this.$('[data-onfido-qa="selfie-continue-btn"]')}
 
   async verifyUIElementsOnTheSelfieIntroScreen(copy) {
     const introStrings = copy.capture.face.intro

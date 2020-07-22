@@ -22,6 +22,7 @@ const Permissions = ({onNext, translate}) => (
         size='large'
         className={classNames(theme['button-centered'], theme['button-lg'])}
         onClick={onNext}
+        data-onfido-qa='enable-camera-btn'
       >
         {translate('webcam_permissions.enable_webcam')}
       </Button>

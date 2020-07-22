@@ -6,7 +6,7 @@ class PoaIntro extends BasePage {
   async firstRequirement() { return this.$('.onfido-sdk-ui-ProofOfAddress-PoAIntro-requirement:nth-child(2) > span')}
   async secondRequirement() { return this.$('.onfido-sdk-ui-ProofOfAddress-PoAIntro-requirement:nth-child(3) > span')}
   async thirdRequirement() { return this.$('.onfido-sdk-ui-ProofOfAddress-PoAIntro-requirement:nth-child(4) > span')}
-  async startVerificationButton() { return this.$('.onfido-sdk-ui-Button-button-text')}
+  async startVerificationButton() { return this.$('[data-onfido-qa="poa-start-btn"]')}
 
   async verifyTitle(copy) {
     verifyElementCopy(this.title(), copy)

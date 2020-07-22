@@ -10,7 +10,7 @@ class PoaGuidance extends BasePage {
   async addressText() { return this.$('.onfido-sdk-ui-ProofOfAddress-Guidance-label:nth-child(3)')}
   async issueDateText() { return this.$('.onfido-sdk-ui-ProofOfAddress-Guidance-label:nth-child(4)')}
   async summaryPeriodText() { return this.$('.onfido-sdk-ui-ProofOfAddress-Guidance-label:nth-child(6')}
-  async continueButton() { return this.$('.onfido-sdk-ui-Button-button-text')}
+  async continueButton() { return this.$('[data-onfido-qa="poa-continue-btn"]')}
   async backButton() { return this.$('.onfido-sdk-ui-NavigationBar-iconBack')}
   async utilityBillIcon() { return this.$('.onfido-sdk-ui-DocumentSelector-icon-utility-bill')}
   async councilTaxLetterIcon() { return this.$('li:nth-child(3) .onfido-sdk-ui-DocumentSelector-icon')}
