@@ -6,10 +6,12 @@ const chaiAsPromised = require("chai-as-promised")
 const expect = chai.expect
 chai.use(chaiAsPromised)
 import axios from 'axios';
+axios.defaults.baseURL = "http://localhost:5555/sdk_token";
+import { doesNotMatch } from 'assert'
 //const { after } = require("mocha")
 //const { string } = Matchers
 
-// const get = require('../test/contracttests/get')
+const get = require('/Users/bart.ziemba/Projects/onfido-sdk-ui/test/contracttests/get.js')
 
 describe('Consumer Test', () => {
   const provider = new Pact({
@@ -22,14 +24,14 @@ describe('Consumer Test', () => {
     pactfileWriteMode: 'update'
   });
 
-  beforeEach(() => provider.setup()
+  beforeAll(() => provider.setup()
   .then(() => provider.addInteraction({
     state: "user token",
     uponReceiving: "GET applicant_id",
     withRequest: {
       method: "GET",
       path: "/sdk_token",
-      headers: { Referer: "onfido.surge.sh", authorization: "BASIC ONLY_TO_BE_USED_BY_ONFIDO" }
+      headers: { "content-type": "application/json", Referer: "onfido.surge.sh", authorization: "BASIC ONLY_TO_BE_USED_BY_ONFIDO" }
     },
     willRespondWith: {
       status: 200,
@@ -37,24 +39,45 @@ describe('Consumer Test', () => {
     }
   })))
 
-
-  function getSdkToken() {
-    return axios.get('http://localhost:5555/sdk_token', {
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-  }
-
   it('OK response', () => {
-    getSdkToken()
+
+    get()
     .then((response) => {
       expect(response.statusText).to.be.equal('OK')
+      console.log("END OF GET")
+      done();
     })
-  })
 
+  })
   afterEach(() => { provider.verify() })
 
   afterAll(() => { provider.finalize() })
 
 })
+
+// function getSdkToken() {
+  //   return axios.get('http://localhost:2222/sdk_token', {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Referer': 'onfido.surge.sh',
+  //       'authorization': 'BASIC ONLY_TO_BE_USED_BY_ONFIDO'
+  //     }
+  //   })
+  // }
+
+    // axios({
+    //   method: 'get',
+    //   url: 'http://localhost:2222/sdk_token',
+    //   headers: {
+    //     'content-type': 'application/json',
+    //     'Referer': 'onfido.surge.sh',
+    //     'authorization': 'BASIC ONLY_TO_BE_USED_BY_ONFIDO'
+    //   }
+    // })
+    // axios.get('http://localhost:6666/sdk_token', {
+    //   headers: {
+    //     'content-type': 'application/json',
+    //     'Referer': 'onfido.surge.sh',
+    //     'authorization': 'BASIC ONLY_TO_BE_USED_BY_ONFIDO'
+    //   }
+    // })
