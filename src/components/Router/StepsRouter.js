@@ -7,6 +7,13 @@ import theme from '../Theme/style.scss'
 import { withFullScreenState } from '../FullScreen'
 
 class StepsRouter extends Component {
+  state = {
+    theme: 'day'
+  }
+
+  changeStyleTheme = () => {
+    this.setState({ theme: this.state.theme === 'day' ? 'night' : 'day' })
+  }
 
   resetSdkFocus = () => this.container.focus()
 
@@ -54,10 +61,11 @@ class StepsRouter extends Component {
         <NavigationBar
           id={stepId}
           back={back}
+          changeStyleTheme={this.changeStyleTheme}
           disabled={disableNavigation}
           className={theme.navigationBar} />
         <div
-          className={classNames(theme.content, {
+          className={classNames(theme.content, theme[this.state.theme], {
             [theme.fullScreenContentWrapper]: isFullScreen,
             [theme.scrollableContent]: !isFullScreen
           })}

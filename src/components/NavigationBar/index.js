@@ -28,6 +28,7 @@ class NavigationBar extends Component {
   render() {
     const {
       back,
+      changeStyleTheme,
       translate,
       disabled,
       isFullScreen,
@@ -53,6 +54,12 @@ class NavigationBar extends Component {
           <span className={style.label} aria-hidden="true">
             {translate('back')}
           </span>
+        </button>
+        <button
+          type="button"
+          onClick={changeStyleTheme}
+        >
+          Switch theme
         </button>
       </div>
     )

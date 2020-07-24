@@ -59,6 +59,14 @@
   }
 }
 
+.day {
+  background-color: castor.color('background-main');
+}
+
+.night {
+  background-color: castor.color('background-inverse-main');
+}
+
 .scrollableContent {
   flex: 1 1 auto; /* .content will fit remaining space */
   overflow: auto; /* scrollbar will only appear when child element exceeds .content height */
