@@ -9,6 +9,7 @@ import url from 'postcss-url'
 import mapObject from 'object-loops/map'
 import mapKeys from 'object-loops/map-keys'
 import SpeedMeasurePlugin from 'speed-measure-webpack-plugin'
+import CopyPlugin from 'copy-webpack-plugin';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import Visualizer from 'webpack-visualizer-plugin'
 import { dirname, relative, resolve } from 'path'
@@ -277,6 +278,12 @@ const configDist = {
 
   plugins: [
     ...basePlugins('dist'),
+    new CopyPlugin({
+      patterns: [
+        { from: resolve('node_modules/@onfido/castor/themes/day.css'), to: 'castor' },
+        { from: resolve('node_modules/@onfido/castor/themes/night.css'), to: 'castor' },
+      ],
+    }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
       chunkFilename: 'onfido.[name].css',

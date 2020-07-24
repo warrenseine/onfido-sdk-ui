@@ -2,7 +2,6 @@
 @import './constants';
 
 :global {
-  @include castor.day();
   @include castor.Button();
 }
 
@@ -49,6 +48,8 @@
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
 
+  background-color: castor.color('background-main');
+
   > * {
     flex-grow: 1;
   }
@@ -57,14 +58,6 @@
     $non-content-height: $footer-height + $footer-margin + $navigation-height-sm-screen + $navigation-padding-top-sm-screen;
     height: calc(100% - #{$non-content-height});
   }
-}
-
-.day {
-  background-color: castor.color('background-main');
-}
-
-.night {
-  background-color: castor.color('background-inverse-main');
 }
 
 .scrollableContent {

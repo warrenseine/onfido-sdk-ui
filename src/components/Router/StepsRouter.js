@@ -11,8 +11,24 @@ class StepsRouter extends Component {
     theme: 'day'
   }
 
+  componentDidMount = () => {
+    this.changeTheme();
+  }
+
   changeStyleTheme = () => {
-    this.setState({ theme: this.state.theme === 'day' ? 'night' : 'day' })
+    const theme = this.state.theme === 'day' ? 'night' : 'day';
+    this.setState({ theme }, () => {
+      this.changeTheme();
+    })
+  }
+
+  changeTheme = () => {
+    const link = document.createElement('link')
+    link.rel  = 'stylesheet';
+    link.type = 'text/css';
+    link.href = `/castor/${this.state.theme}.css`;
+    link.media = 'all';
+    document.head.appendChild(link);
   }
 
   resetSdkFocus = () => this.container.focus()

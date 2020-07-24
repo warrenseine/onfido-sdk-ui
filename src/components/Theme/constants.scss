@@ -1,3 +1,5 @@
+@use '~@onfido/castor';
+
 /**
  * We want our units to be based on `em`, so that our SDK can accommodate for
  * the user changing their browser font size.
@@ -54,16 +56,16 @@ $color-icon-temporary: #edeeef;
 $color-neutral-600: #a2a8b3;
 $color-neutral-700: #636670;
 
-$color-background: $color-white;
+$color-background: castor.color('background-main');
 $color-border: $color-neutral-600;
 $color-divider: #dee1e4;
 $color-adjust-huener: $color-neutral-600;
-$color-body-text: #1e1e24;
-$color-title-text: #2b2d33;
-$color-subtitle-text: $color-body-text;
+$color-body-text: castor.color('content-main');
+$color-title-text: castor.color('content-main');
+$color-subtitle-text: castor.color('content-main');
 $color-camera-error-overlay: #1c1f21;
 $color-black: #000;
-$color-small-print: #0f2536;
+$color-small-print: castor.color('content-secondary');
 $color-tips-pill: #5d6b78;
 $color-input-border: #667080;
 $color-error: #dc2a2a;
