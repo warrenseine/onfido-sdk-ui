@@ -660,6 +660,19 @@ Given user opened the link with `?uploadFallback=false` flag
    - browser should disregard the request for live document capture
    - browser should direct to the normal desktop flow options of cross device or document upload
 
+### 35. Check happy path flow for passports on mobile browsers on power saving mode
+
+(on private mode of: Android Google Chrome and iOS Safari browsers)
+
+1. Enable battery saving mode on your device settings
+2. Select `passport` document
+   - everything should be displayed properly and layout should not be broken
+3. Upload document
+   - everything should be displayed properly and layout should not be broken
+   - you should be able to take a photo without seeing any error
+4. Upload face photo
+   - everything should be displayed properly and layout should not be broken
+
 ## Non-functional
 
 ### 1. Check analytics tracking
