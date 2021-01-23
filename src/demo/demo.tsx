@@ -119,15 +119,36 @@ const SdkDemo: FunctionComponent<{
     return <span>SDK has been torn down</span>
   }
 
-  const options: SdkOptions = {
+  const options: any = {
     ...getInitSdkOptions(),
     token,
     isModalOpen,
-    onComplete: (data) =>
+    onComplete: (data: any) =>
       hasPreview
         ? port2.postMessage({ type: 'SDK_COMPLETE', data })
         : console.log(data),
-    onError: (error) => console.error('onError callback:', error),
+    onError: (error: any) => console.error('onError callback:', error),
+    onUserSubmit: ({type, data, callback}: any) => {
+      // send data to customer backend api/${type}
+      // Using feature flag
+      console.log("received: ", type, data, callback);
+      const continueOnfidoSubmission = true
+      callback(continueOnfidoSubmission)
+    },
+    enterpriseFeatures: {
+      onUserSubmitCBs: {
+        onDocumentSubmit: (data: any) => {
+          console.log(data)
+        },
+        onSelfieSubmit: (data: any) => {
+          console.log(data)
+        },
+        onVideoSubmit: (data: any) => {
+          console.log(data)
+        },
+      },
+      requestMode: 'PROXY'
+    },
     onModalRequestClose: () => setIsModalOpen(false),
     ...(sdkOptions || {}),
   }

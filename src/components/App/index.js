@@ -25,7 +25,7 @@ class ModalApp extends Component {
       Tracker.setUp()
       Tracker.install()
     }
-    this.bindEvents(props.options.onComplete, props.options.onError)
+    this.bindEvents(props.options.onComplete, props.options.onError, props.options.enterpriseFeatures.onUserSubmitCBs)
   }
 
   componentDidMount() {
@@ -40,7 +40,7 @@ class ModalApp extends Component {
 
   componentWillUnmount() {
     this.props.socket && this.props.socket.close()
-    this.events.removeAllListeners('complete', 'error')
+    this.events.removeAllListeners('complete', 'error', 'documentSubmit', 'selfieSubmit', 'videoSubmit')
     Tracker.uninstall()
   }
 
@@ -68,15 +68,27 @@ class ModalApp extends Component {
 
   trackOnComplete = () => Tracker.sendEvent('completed flow')
 
-  bindEvents = (onComplete, onError) => {
+  bindEvents = (onComplete, onError, onUserSubmitCBs) => {
     this.events.on('complete', onComplete)
     this.events.on('error', onError)
+    if (onUserSubmitCBs?.onDocumentSubmit)
+      this.events.on('userDocument', onUserSubmitCBs.onDocumentSubmit)
+    if (onUserSubmitCBs?.onSelfieSubmit)
+      this.events.on('userSelfie', onUserSubmitCBs.onSelfieSubmit)
+    if (onUserSubmitCBs?.onLivenessSubmit)
+      this.events.on('userDocument', onUserSubmitCBs.onLivenessSubmit)
   }
 
   rebindEvents = (oldOptions, newOptions) => {
     this.events.off('complete', oldOptions.onComplete)
     this.events.off('error', oldOptions.onError)
-    this.bindEvents(newOptions.onComplete, newOptions.onError)
+    if (oldOptions.onUserSubmitCBs?.onDocumentSubmit)
+      this.events.off('userDocument', oldOptions.onUserSubmitCBs.onDocumentSubmit)
+    if (oldOptions.onUserSubmitCBs?.onSelfieSubmit)
+      this.events.off('userSelfie', oldOptions.onUserSubmitCBs.onSelfieSubmit)
+    if (oldOptions.onUserSubmitCBs?.onLivenessSubmit)
+      this.events.off('userDocument', oldOptions.onUserSubmitCBs.onLivenessSubmit)
+    this.bindEvents(newOptions.onComplete, newOptions.onError, newOptions.onUserSubmit)
   }
 
   setIssuingCountryIfConfigured = (documentStep, preselectedDocumentType) => {

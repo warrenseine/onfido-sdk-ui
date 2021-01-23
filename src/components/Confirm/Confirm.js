@@ -233,6 +233,14 @@ class Confirm extends Component {
       this.props.actions.resetImageQualityRetries()
       this.props.nextStep()
     } else {
+      /* If decouple feature is active on proxy or standard mode, use callback here
+        Probably need to expose:
+          * setWarning
+          * setError
+          * onApiSuccess
+          * onApiError?
+        If decouple feature on decouple mode, don't upload to Onfido
+      */
       this.uploadCaptureToOnfido()
     }
   }

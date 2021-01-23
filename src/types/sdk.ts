@@ -56,6 +56,12 @@ export interface SdkOptions extends FunctionalConfigurations {
   enterpriseFeatures?: {
     hideOnfidoLogo?: boolean
     cobrand?: { text: string }
+    requestMode?: SdkRequestsModes
+    onUserSubmitCBs?: {
+      onDocumentSubmit?: (data: SdkResponse) => void
+      onSelfieSubmit?: (data: SdkResponse) => void
+      onVideoSubmit?: (data: SdkResponse) => void
+    }
   }
 }
 
@@ -64,5 +70,10 @@ export type SdkHandle = {
   setOptions(options: SdkOptions): void
   tearDown(): void
 }
+
+/* Standard is our currently process,
+   Proxy would make the SDK wait to get a response from the callback,
+   Decouple would automatically continue to next step after calling callback */
+export type SdkRequestsModes = 'STANDARD' | 'PROXY' | 'DECOUPLE';
 
 export type SdkInitMethod = (options: SdkOptions) => SdkHandle
