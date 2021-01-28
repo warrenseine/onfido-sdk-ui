@@ -167,6 +167,9 @@ class Confirm extends Component {
       token,
       poaDocumentType,
       language,
+      nextStep,
+      events,
+      enterpriseFeatures,
     } = this.props
     const url = urls.onfido_api_url
     this.startTime = performance.now()
@@ -180,6 +183,14 @@ class Confirm extends Component {
       sdkMetadata,
     } = capture
     this.setState({ capture })
+    const sdkCallbacks = {
+      continueToNextStep: nextStep,
+      requestRecapture: ({ warning, error }) => warning
+        ? this.setWarning(warning)
+        : this.setError(error ?? 'REQUEST_ERROR'),
+      onfidoSuccessResponse: this.onApiSuccess,
+      onfidoErrorResponse: this.onApiError,
+    }
 
     if (method === 'document') {
       const isPoA = poaDocumentTypes.includes(poaDocumentType)
@@ -206,12 +217,33 @@ class Confirm extends Component {
         sdkMetadata,
         ...issuingCountry,
       }
-      uploadDocument(data, url, token, this.onApiSuccess, this.onApiError)
+      if (enterpriseFeatures?.decoupleMode !== 'OFF') {
+        sdkCallbacks.continueWithOnfidoRequest = () => uploadDocument(data, url, token, this.onApiSuccess, this.onApiError)
+        events.emit('documentSubmit', { ...data, ...sdkCallbacks })
+      }
+
+      if (enterpriseFeatures?.decoupleMode === 'DECOUPLE') {
+        nextStep()
+      } else if (enterpriseFeatures?.decoupleMode !== 'PROXY') {
+        uploadDocument(data, url, token, this.onApiSuccess, this.onApiError)
+      }
     } else if (method === 'face') {
       if (variant === 'video') {
         const data = { challengeData, blob, language, sdkMetadata }
-        uploadLiveVideo(data, url, token, this.onApiSuccess, this.onApiError)
+        if (enterpriseFeatures?.decoupleMode !== 'OFF') {
+          sdkCallbacks.continueWithOnfidoRequest = () => uploadLiveVideo(data, url, token, this.onApiSuccess, this.onApiError)
+          events.emit('videoSubmit', { ...data, ...sdkCallbacks })
+        }
+
+        if (enterpriseFeatures?.decoupleMode === 'DECOUPLE') {
+          nextStep()
+        } else if (enterpriseFeatures?.decoupleMode !== 'PROXY') {
+          uploadLiveVideo(data, url, token, this.onApiSuccess, this.onApiError)
+        }
       } else {
+        // Need to create decoupled version of selfie upload
+        // sdkCallbacks.continueWithOnfidoRequest = () => this.handleSelfieUpload(capture, token)
+        // events.emit('selfieSubmit', { capture, ...sdkCallbacks })
         this.handleSelfieUpload(capture, token)
       }
     }
@@ -233,14 +265,6 @@ class Confirm extends Component {
       this.props.actions.resetImageQualityRetries()
       this.props.nextStep()
     } else {
-      /* If decouple feature is active on proxy or standard mode, use callback here
-        Probably need to expose:
-          * setWarning
-          * setError
-          * onApiSuccess
-          * onApiError?
-        If decouple feature on decouple mode, don't upload to Onfido
-      */
       this.uploadCaptureToOnfido()
     }
   }

@@ -128,17 +128,11 @@ const SdkDemo: FunctionComponent<{
         ? port2.postMessage({ type: 'SDK_COMPLETE', data })
         : console.log(data),
     onError: (error: any) => console.error('onError callback:', error),
-    onUserSubmit: ({type, data, callback}: any) => {
-      // send data to customer backend api/${type}
-      // Using feature flag
-      console.log("received: ", type, data, callback);
-      const continueOnfidoSubmission = true
-      callback(continueOnfidoSubmission)
-    },
     enterpriseFeatures: {
       onUserSubmitCBs: {
         onDocumentSubmit: (data: any) => {
           console.log(data)
+          setTimeout(() => data.onfidoSuccessResponse({}), 4000)
         },
         onSelfieSubmit: (data: any) => {
           console.log(data)
@@ -147,7 +141,7 @@ const SdkDemo: FunctionComponent<{
           console.log(data)
         },
       },
-      requestMode: 'PROXY'
+      decoupleMode: 'PROXY'
     },
     onModalRequestClose: () => setIsModalOpen(false),
     ...(sdkOptions || {}),
