@@ -26,7 +26,7 @@ class ModalApp extends Component {
       Tracker.setUp()
       Tracker.install()
     }
-    this.bindEvents(props.options.onComplete, props.options.onError, props.options.enterpriseFeatures.onUserSubmitCBs)
+    this.bindEvents(props.options.onComplete, props.options.onError)
   }
 
   componentDidMount() {
@@ -72,24 +72,12 @@ class ModalApp extends Component {
   bindEvents = (onComplete, onError, onUserSubmitCBs) => {
     this.events.on('complete', onComplete)
     this.events.on('error', onError)
-    if (onUserSubmitCBs?.onDocumentSubmit)
-      this.events.on('documentSubmit', onUserSubmitCBs.onDocumentSubmit)
-    if (onUserSubmitCBs?.onSelfieSubmit)
-      this.events.on('selfieSubmit', onUserSubmitCBs.onSelfieSubmit)
-    if (onUserSubmitCBs?.onVideoSubmit)
-      this.events.on('videoSubmit', onUserSubmitCBs.onVideoSubmit)
   }
 
   rebindEvents = (oldOptions, newOptions) => {
     this.events.off('complete', oldOptions.onComplete)
     this.events.off('error', oldOptions.onError)
-    if (oldOptions.onUserSubmitCBs?.onDocumentSubmit)
-      this.events.off('documentSubmit', oldOptions.onUserSubmitCBs.onDocumentSubmit)
-    if (oldOptions.onUserSubmitCBs?.onSelfieSubmit)
-      this.events.off('selfieSubmit', oldOptions.onUserSubmitCBs.onSelfieSubmit)
-    if (oldOptions.onUserSubmitCBs?.onVideoSubmit)
-      this.events.off('videoSubmit', oldOptions.onUserSubmitCBs.onVideoSubmit)
-    this.bindEvents(newOptions.onComplete, newOptions.onError, newOptions.onUserSubmit)
+    this.bindEvents(newOptions.onComplete, newOptions.onError)
   }
 
   setIssuingCountryIfConfigured = (documentStep, preselectedDocumentType) => {
@@ -167,11 +155,11 @@ class ModalApp extends Component {
       )
     }
 
-    const decoupleConfig = options.enterpriseFeatures?.decoupleMode
-    if (decoupleConfig) {
-      this.setDecoupleModeIfClientHasFeature(
+    const useSubmitCallbacks = options.enterpriseFeatures?.useSubmitCallbacks
+    if (useSubmitCallbacks) {
+      this.enableSubmitCallbacksIfClientHasFeature(
         validEnterpriseFeatures.sdkDecouple,
-        decoupleConfig
+        useSubmitCallbacks
       )
     }
   }
@@ -203,10 +191,10 @@ class ModalApp extends Component {
     }
   }
 
-  setDecoupleModeIfClientHasFeature = (isValidEnterpriseFeature, decoupleConfig) => {
+  enableSubmitCallbacksIfClientHasFeature = (isValidEnterpriseFeature, useSubmitCallbacks) => {
     if (true /*isValidEnterpriseFeature*/) {
-      this.props.actions.setDecoupleMode(
-        SDK_DECOUPLE_MODE[decoupleConfig] ? decoupleConfig : SDK_DECOUPLE_MODE.OFF
+      this.props.actions.enableSubmitCallbacks(
+        useSubmitCallbacks
       )
     } else {
       this.onInvalidEnterpriseFeatureException('SDK decoupling')

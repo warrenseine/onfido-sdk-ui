@@ -19,6 +19,7 @@ const initialState = {
   // This prevents logo from being shown before state can be updated to hide it.
   hideOnfidoLogo: true,
   cobrand: null,
+  useSubmitCallbacks: false,
   urls: {
     onfido_api_url: `${process.env.ONFIDO_API_URL}`,
     telephony_url: `${process.env.SMS_DELIVERY_URL}`,
@@ -94,6 +95,11 @@ export default function globals(state = initialState, action) {
       return {
         ...state,
         imageQualityRetries: 0,
+      }
+    case constants.USE_SUBMIT_CALLBACKS:
+      return {
+        ...state,
+        useSubmitCallbacks: action.payload,
       }
 
     default:

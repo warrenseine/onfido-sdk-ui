@@ -129,19 +129,28 @@ const SdkDemo: FunctionComponent<{
         : console.log(data),
     onError: (error: any) => console.error('onError callback:', error),
     enterpriseFeatures: {
-      onUserSubmitCBs: {
-        onDocumentSubmit: (data: any) => {
-          console.log(data)
-          setTimeout(() => data.onfidoSuccessResponse({}), 4000)
-        },
-        onSelfieSubmit: (data: any) => {
-          console.log(data)
-        },
-        onVideoSubmit: (data: any) => {
-          console.log(data)
-        },
+      onDocumentSubmit: (data: any) => {
+        console.log(data)
+        return new Promise((resolve, reject) => {
+          setTimeout(() => resolve({sendRequestToOnfido: true}), 4000)
+          // setTimeout(() => reject({status: 422, response: {error: { fields: { document_detection: true }}}}), 4000)
+        })
       },
-      decoupleMode: 'PROXY'
+      onSelfieSubmit: (data: any) => {
+        console.log(data)
+        return new Promise((resolve, reject) => {
+          setTimeout(() => resolve({sendRequestToOnfido: true}), 4000)
+          // setTimeout(() => reject({status: 422, response: {error: { fields: { document_detection: true }}}}), 4000)
+        })
+      },
+      onVideoSubmit: (data: any) => {
+        console.log(data)
+        return new Promise((resolve, reject) => {
+          setTimeout(() => resolve({sendRequestToOnfido: true}), 4000)
+          // setTimeout(() => reject({status: 422, response: {error: { fields: { document_detection: true }}}}), 4000)
+        })
+      },
+      useSubmitCallbacks: true
     },
     onModalRequestClose: () => setIsModalOpen(false),
     ...(sdkOptions || {}),

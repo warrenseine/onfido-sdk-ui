@@ -167,11 +167,11 @@ class Confirm extends Component {
       token,
       poaDocumentType,
       language,
-      nextStep,
-      events,
+      useSubmitCallbacks,
       enterpriseFeatures,
     } = this.props
     const url = urls.onfido_api_url
+    // Might need to re-think these next to lines being here
     this.startTime = performance.now()
     sendEvent('Starting upload', { method })
     this.setState({ uploadInProgress: true })
@@ -183,14 +183,6 @@ class Confirm extends Component {
       sdkMetadata,
     } = capture
     this.setState({ capture })
-    const sdkCallbacks = {
-      continueToNextStep: nextStep,
-      requestRecapture: ({ warning, error }) => warning
-        ? this.setWarning(warning)
-        : this.setError(error ?? 'REQUEST_ERROR'),
-      onfidoSuccessResponse: this.onApiSuccess,
-      onfidoErrorResponse: this.onApiError,
-    }
 
     if (method === 'document') {
       const isPoA = poaDocumentTypes.includes(poaDocumentType)
@@ -217,34 +209,44 @@ class Confirm extends Component {
         sdkMetadata,
         ...issuingCountry,
       }
-      if (enterpriseFeatures?.decoupleMode !== 'OFF') {
-        sdkCallbacks.continueWithOnfidoRequest = () => uploadDocument(data, url, token, this.onApiSuccess, this.onApiError)
-        events.emit('documentSubmit', { ...data, ...sdkCallbacks })
-      }
-
-      if (enterpriseFeatures?.decoupleMode === 'DECOUPLE') {
-        nextStep()
-      } else if (enterpriseFeatures?.decoupleMode !== 'PROXY') {
+      if (useSubmitCallbacks) {
+        enterpriseFeatures.onDocumentSubmit(data).then(response => {
+          console.log(response);
+          if (response?.sendRequestToOnfido) {
+            uploadDocument(data, url, token, this.onApiSuccess, this.onApiError)
+          } else if (response?.successResponse) {
+            this.onApiSuccess(response.successResponse)
+          }
+        }).catch(e => this.onApiError(e))
+      } else {
         uploadDocument(data, url, token, this.onApiSuccess, this.onApiError)
       }
     } else if (method === 'face') {
       if (variant === 'video') {
         const data = { challengeData, blob, language, sdkMetadata }
-        if (enterpriseFeatures?.decoupleMode !== 'OFF') {
-          sdkCallbacks.continueWithOnfidoRequest = () => uploadLiveVideo(data, url, token, this.onApiSuccess, this.onApiError)
-          events.emit('videoSubmit', { ...data, ...sdkCallbacks })
-        }
-
-        if (enterpriseFeatures?.decoupleMode === 'DECOUPLE') {
-          nextStep()
-        } else if (enterpriseFeatures?.decoupleMode !== 'PROXY') {
+        if (useSubmitCallbacks) {
+          enterpriseFeatures.onVideoSubmit(data).then(response => {
+            if (response?.sendRequestToOnfido) {
+              uploadLiveVideo(data, url, token, this.onApiSuccess, this.onApiError)
+            } else if (response?.successResponse) {
+              this.onApiSuccess(response.successResponse)
+            }
+          }).catch(e => this.onApiError(e))
+        } else {
           uploadLiveVideo(data, url, token, this.onApiSuccess, this.onApiError)
         }
       } else {
-        // Need to create decoupled version of selfie upload
-        // sdkCallbacks.continueWithOnfidoRequest = () => this.handleSelfieUpload(capture, token)
-        // events.emit('selfieSubmit', { capture, ...sdkCallbacks })
-        this.handleSelfieUpload(capture, token)
+        if (useSubmitCallbacks) {
+          enterpriseFeatures.onSelfieSubmit(capture).then(response => {
+            if (response?.sendRequestToOnfido) {
+              this.handleSelfieUpload(capture, token)
+            } else if (response?.successResponse) {
+              this.onApiSuccess(response.successResponse)
+            }
+          }).catch(e => this.onApiError(e))
+        } else {
+          this.handleSelfieUpload(capture, token)
+        }
       }
     }
   }

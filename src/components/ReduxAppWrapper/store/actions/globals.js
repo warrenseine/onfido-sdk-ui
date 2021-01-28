@@ -115,7 +115,7 @@ export const resetImageQualityRetries = () => ({
   type: constants.RESET_IMAGE_QUALITY_RETRIES,
 })
 
-export const setDecoupleMode = (payload) => ({
-  type: constants.SET_SDK_DECOUPLE_MODE,
+export const enableSubmitCallbacks = (payload) => ({
+  type: constants.USE_SUBMIT_CALLBACKS,
   payload: payload,
 })
