@@ -15,6 +15,7 @@ import {
   getUrlsFromJWT,
   getEnterpriseFeaturesFromJWT,
 } from '~utils/jwt'
+import { SDK_DECOUPLE_MODE } from 'components/ReduxAppWrapper/constants'
 
 class ModalApp extends Component {
   constructor(props) {
@@ -72,22 +73,22 @@ class ModalApp extends Component {
     this.events.on('complete', onComplete)
     this.events.on('error', onError)
     if (onUserSubmitCBs?.onDocumentSubmit)
-      this.events.on('userDocument', onUserSubmitCBs.onDocumentSubmit)
+      this.events.on('documentSubmit', onUserSubmitCBs.onDocumentSubmit)
     if (onUserSubmitCBs?.onSelfieSubmit)
-      this.events.on('userSelfie', onUserSubmitCBs.onSelfieSubmit)
-    if (onUserSubmitCBs?.onLivenessSubmit)
-      this.events.on('userDocument', onUserSubmitCBs.onLivenessSubmit)
+      this.events.on('selfieSubmit', onUserSubmitCBs.onSelfieSubmit)
+    if (onUserSubmitCBs?.onVideoSubmit)
+      this.events.on('videoSubmit', onUserSubmitCBs.onVideoSubmit)
   }
 
   rebindEvents = (oldOptions, newOptions) => {
     this.events.off('complete', oldOptions.onComplete)
     this.events.off('error', oldOptions.onError)
     if (oldOptions.onUserSubmitCBs?.onDocumentSubmit)
-      this.events.off('userDocument', oldOptions.onUserSubmitCBs.onDocumentSubmit)
+      this.events.off('documentSubmit', oldOptions.onUserSubmitCBs.onDocumentSubmit)
     if (oldOptions.onUserSubmitCBs?.onSelfieSubmit)
-      this.events.off('userSelfie', oldOptions.onUserSubmitCBs.onSelfieSubmit)
-    if (oldOptions.onUserSubmitCBs?.onLivenessSubmit)
-      this.events.off('userDocument', oldOptions.onUserSubmitCBs.onLivenessSubmit)
+      this.events.off('selfieSubmit', oldOptions.onUserSubmitCBs.onSelfieSubmit)
+    if (oldOptions.onUserSubmitCBs?.onVideoSubmit)
+      this.events.off('videoSubmit', oldOptions.onUserSubmitCBs.onVideoSubmit)
     this.bindEvents(newOptions.onComplete, newOptions.onError, newOptions.onUserSubmit)
   }
 
@@ -165,6 +166,14 @@ class ModalApp extends Component {
         cobrandConfig
       )
     }
+
+    const decoupleConfig = options.enterpriseFeatures?.decoupleMode
+    if (decoupleConfig) {
+      this.setDecoupleModeIfClientHasFeature(
+        validEnterpriseFeatures.sdkDecouple,
+        decoupleConfig
+      )
+    }
   }
 
   setUrls = (token) => {
@@ -191,6 +200,16 @@ class ModalApp extends Component {
       this.props.actions.showCobranding(cobrandConfig)
     } else {
       this.onInvalidEnterpriseFeatureException('cobrand')
+    }
+  }
+
+  setDecoupleModeIfClientHasFeature = (isValidEnterpriseFeature, decoupleConfig) => {
+    if (true /*isValidEnterpriseFeature*/) {
+      this.props.actions.setDecoupleMode(
+        SDK_DECOUPLE_MODE[decoupleConfig] ? decoupleConfig : SDK_DECOUPLE_MODE.OFF
+      )
+    } else {
+      this.onInvalidEnterpriseFeatureException('SDK decoupling')
     }
   }
 

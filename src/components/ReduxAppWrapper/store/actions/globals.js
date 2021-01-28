@@ -114,3 +114,8 @@ export const retryForImageQuality = () => ({
 export const resetImageQualityRetries = () => ({
   type: constants.RESET_IMAGE_QUALITY_RETRIES,
 })
+
+export const setDecoupleMode = (payload) => ({
+  type: constants.SET_SDK_DECOUPLE_MODE,
+  payload: payload,
+})
