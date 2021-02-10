@@ -15,7 +15,6 @@ import {
   getUrlsFromJWT,
   getEnterpriseFeaturesFromJWT,
 } from '~utils/jwt'
-import { SDK_DECOUPLE_MODE } from 'components/ReduxAppWrapper/constants'
 
 class ModalApp extends Component {
   constructor(props) {

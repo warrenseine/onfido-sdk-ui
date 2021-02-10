@@ -117,7 +117,7 @@ export const requestChallenges = (url, token, onSuccess, onError) => {
   performHttpReq(options, onSuccess, (request) => formatError(request, onError))
 }
 
-const objectToFormData = (object) => {
+export const objectToFormData = (object) => {
   const formData = new FormData()
   forEach(object, (value, fieldName) => {
     if (typeof value === 'object' && value.blob && value.filename) {

@@ -10,6 +10,7 @@ import {
 import { poaDocumentTypes } from '../DocumentSelector/documentTypes'
 import Spinner from '../Spinner'
 import Previews from './Previews'
+import { objectToFormData } from '../utils/onfidoApi'
 
 const MAX_RETRIES_FOR_IMAGE_QUALITY = 2
 
@@ -237,7 +238,17 @@ class Confirm extends Component {
         }
       } else {
         if (useSubmitCallbacks) {
-          enterpriseFeatures.onSelfieSubmit(capture).then(response => {
+          const { snapshot, sdkMetadata } = capture;
+          const file = {
+            blob: capture.blob,
+            filename: capture.filename,
+          }
+          const payload = objectToFormData({
+            file,
+            snapshot,
+            'sdk_metadata': JSON.stringify(sdkMetadata),
+          })
+          enterpriseFeatures.onSelfieSubmit(payload, token).then(response => {
             if (response?.sendRequestToOnfido) {
               this.handleSelfieUpload(capture, token)
             } else if (response?.successResponse) {
