@@ -1,4 +1,7 @@
 import { Builder, Capabilities } from 'selenium-webdriver'
+const firefox = require('selenium-webdriver/firefox')
+const safari = require('selenium-webdriver/safari')
+const chrome = require('selenium-webdriver/chrome')
 import remote from 'selenium-webdriver/remote'
 import config from './config.json'
 import Mocha from 'mocha'
@@ -10,6 +13,7 @@ import { eachP, asyncForEach } from './utils/async'
 import { exec } from 'child_process'
 import chalk from 'chalk'
 import https from 'https'
+import * as Console from 'console'
 
 if (!process.env.BROWSERSTACK_USERNAME) {
   console.error('ERROR: BrowserStack username not set')
@@ -43,8 +47,7 @@ const browserstackLocalDefault = {
 const currentDate = Date.now().toString()
 const random = () => Math.random().toString(36).substring(7)
 
-const chromeCapabilities = Capabilities.chrome()
-const chromeOptions = {
+/*const chromeOptions = {
   args: [
     '--use-fake-device-for-media-stream',
     '--use-fake-ui-for-media-stream',
@@ -52,10 +55,29 @@ const chromeOptions = {
     '--ignore-certificate-errors',
   ],
 }
+*/
+
+const chromeOptions = new chrome.Options()
+  .addArguments('--use-fake-device-for-media-stream')
+  .addArguments('--use-fake-ui-for-media-stream')
+  .addArguments(
+    `--use-file-for-fake-video-capture=${__dirname}/resources/test-stream.y4m`
+  )
+  .addArguments('--ignore-certificate-errors')
+  .addArguments('--ignore-ssl-errors=yes')
+
+const firefoxOptions = new firefox.Options().setAcceptInsecureCerts(true)
+
+const safariOptions = new safari.Options().setAcceptInsecureCerts(false)
+
+//const safariOptions = {
+//  args: ['--ignore-certificate-errors'],
+//}
+
 // chromeOptions changed to goog:chromeOptions'
 //please refer https://github.com/elgalu/docker-selenium/issues/201
 // https://github.com/ringcentral/testring/pull/63/files
-chromeCapabilities.set('goog:chromeOptions', chromeOptions)
+//chromeCapabilities.set('goog:chromeOptions', chromeOptions)
 
 const createDriver = ({ name, localIdentifier }) => (browser) =>
   browser.remote
@@ -64,14 +86,17 @@ const createDriver = ({ name, localIdentifier }) => (browser) =>
         .withCapabilities({
           ...bsCapabilitiesDefault,
           ...browser,
-          ...chromeCapabilities,
+          //...chromeCapabilities,
           name,
           build: currentDate,
           'browserstack.localIdentifier': localIdentifier,
         })
     : new Builder()
         .forBrowser(browser.browserName)
-        .withCapabilities(chromeCapabilities)
+        // .withCapabilities(chromeCapabilities)
+        .setChromeOptions(chromeOptions)
+        .setFirefoxOptions(firefoxOptions)
+        .setSafariOptions(safariOptions)
 
 const createBrowser = async (browser, testCase) => {
   const localIdentifier = random()
@@ -116,6 +141,7 @@ const createBrowser = async (browser, testCase) => {
 }
 
 const createMocha = (driver, testCase) => {
+  Console.log(testCase.file)
   // Create our Mocha instance
   const mocha = new Mocha({
     reporter: 'mochawesome',
@@ -134,7 +160,6 @@ const createMocha = (driver, testCase) => {
   mocha.suite.on('require', (global, file) => {
     delete require.cache[file]
   })
-
   mocha.addFile(`${testCase.file}`)
   mocha.suite.ctx.driver = driver
 

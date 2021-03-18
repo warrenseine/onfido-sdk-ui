@@ -170,6 +170,7 @@ class CrossDeviceLink extends BasePage {
     this.switchToSmsOptionBtn().click()
   }
 
+  //unused....
   async toggleQrCodeHelpTextVisibility() {
     this.qrCodeHelpToggleBtn().click()
   }

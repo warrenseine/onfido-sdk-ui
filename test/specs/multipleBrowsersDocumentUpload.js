@@ -57,8 +57,7 @@ describe(
       )
     })
 
-    // @FIXME: the country selector is broken on Firefox
-    it.skip('should upload id document with PDF', async () => {
+    it('should upload id document with PDF', async () => {
       driver.get(localhostUrl)
       welcome.continueToNextStep()
       documentSelector.clickOnIdentityCardIcon()
@@ -71,7 +70,7 @@ describe(
       )
     })
 
-    it('should show cross device intro screen if camera not detected and uploadFallback disabled', async () => {
+    it.only('should show cross device intro screen if camera not detected and uploadFallback disabled', async () => {
       goToPassportUploadScreen(
         driver,
         welcome,

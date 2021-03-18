@@ -58,6 +58,7 @@ export default class PassportUploadImageGuide extends BasePage {
     return sendKeysToElement
   }
 
+  //unused...
   async verifyUploaderButtonLabel(copy) {
     verifyElementCopy(this.uploaderBtnText(), copy.upload_guide.button_primary)
   }
