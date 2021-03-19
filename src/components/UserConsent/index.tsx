@@ -5,18 +5,18 @@ import {
   useContext,
   unmountComponentAtNode,
 } from 'preact/compat'
-import { LocaleContext } from '~locales'
 import { sanitize } from 'dompurify'
+
+import { useSdkOptions } from '~contexts'
+import { LocaleContext } from '~locales'
 import { trackComponent } from '../../Tracker'
 import ScreenLayout from '../Theme/ScreenLayout'
 import Button from '../Button'
 import DeclineModal from './DeclineModal'
 import style from './style.scss'
 
-import type { StepComponentUserConsentProps } from '~types/routers'
-import { ApiRawError, SuccessCallback } from '~types/api'
-
-type UserConsentProps = StepComponentUserConsentProps
+import type { StepComponentBaseProps } from '~types/routers'
+import type { ApiRawError, SuccessCallback } from '~types/api'
 
 type ActionsProps = {
   onAccept(): void
@@ -27,6 +27,7 @@ const Actions: FunctionComponent<ActionsProps> = ({ onAccept, onDecline }) => {
   const { translate } = useContext(LocaleContext)
   const primaryBtnCopy = translate('user_consent.button_primary')
   const secondaryBtnCopy = translate('user_consent.button_secondary')
+
   return (
     <div className={style.actions}>
       <Button
@@ -68,27 +69,21 @@ const getConsentFile = (
   request.send()
 }
 
-const UserConsent: FunctionComponent<UserConsentProps> = ({
+const UserConsent: FunctionComponent<StepComponentBaseProps> = ({
   nextStep,
-  containerEl,
-  containerId,
-  events,
 }) => {
+  const { containerEl, containerId, events } = useSdkOptions()
   const [consentHtml, setConsentHtml] = useState('')
   const [isModalOpen, setModalToOpen] = useState(false)
+
+  const openModal = () => setModalToOpen(true)
+  const closeModal = () => setModalToOpen(false)
+
   const sdkContainer = containerEl || document.getElementById(containerId)
 
-  const actions = (
-    <Actions
-      onAccept={nextStep}
-      onDecline={() => {
-        setModalToOpen(true)
-      }}
-    />
-  )
+  const actions = <Actions onAccept={nextStep} onDecline={openModal} />
 
   const triggerUserExit = () => {
-    setModalToOpen(false)
     events.emit('userExit', 'USER_CONSENT_DENIED')
     unmountComponentAtNode(sdkContainer)
   }
@@ -103,19 +98,18 @@ const UserConsent: FunctionComponent<UserConsentProps> = ({
 
   return (
     <Fragment>
-      {isModalOpen && (
-        <DeclineModal
-          isOpen={true}
-          onRequestClose={() => setModalToOpen(false)}
-          onDismissModal={() => setModalToOpen(false)}
-          onAbandonFlow={triggerUserExit}
-          containerEl={sdkContainer}
-        />
-      )}
+      <DeclineModal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        onDismissModal={closeModal}
+        onAbandonFlow={triggerUserExit}
+        containerEl={sdkContainer}
+      />
       <ScreenLayout actions={actions}>
         <div
           className={style.consentFrame}
           data-onfido-qa="userConsentFrameWrapper"
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{
             __html: sanitize(consentHtml, { ADD_ATTR: ['target', 'rel'] }),
           }}

@@ -1,6 +1,7 @@
 import { h, Component, ComponentType } from 'preact'
 import { EventEmitter2 } from 'eventemitter2'
 
+import { SdkOptionsProvider } from '~contexts/useSdkOptions'
 import { LocaleProvider } from '~locales'
 import { getEnabledDocuments } from '~utils'
 import {
@@ -17,6 +18,7 @@ import type { NormalisedSdkOptions } from '~types/commons'
 import type {
   EnterpriseFeatures,
   EnterpriseCobranding,
+  EnterpriseLogoCobranding,
 } from '~types/enterprise'
 import type {
   SdkOptions,
@@ -220,6 +222,14 @@ class ModalApp extends Component<Props> {
       )
     }
 
+    const logoCobrandConfig = options.enterpriseFeatures?.logoCobrand
+    if (!hideOnfidoLogo && !cobrandConfig && logoCobrandConfig) {
+      this.displayLogoCobrandIfClientHasFeature(
+        validEnterpriseFeatures.logoCobrand,
+        logoCobrandConfig
+      )
+    }
+
     const isDecoupledFromAPI =
       options.enterpriseFeatures?.useCustomizedApiRequests
     if (isDecoupledFromAPI) {
@@ -254,6 +264,17 @@ class ModalApp extends Component<Props> {
       this.props.actions.showCobranding(cobrandConfig)
     } else {
       this.onInvalidEnterpriseFeatureException('cobrand')
+    }
+  }
+
+  displayLogoCobrandIfClientHasFeature = (
+    isValidEnterpriseFeature: EnterpriseLogoCobranding | null | undefined,
+    logoCobrandConfig: EnterpriseLogoCobranding
+  ) => {
+    if (isValidEnterpriseFeature) {
+      this.props.actions.showLogoCobranding(logoCobrandConfig)
+    } else {
+      this.onInvalidEnterpriseFeatureException('logoCobrand')
     }
   }
 
@@ -293,40 +314,31 @@ class ModalApp extends Component<Props> {
   }
 
   render() {
+    const { options, ...otherProps } = this.props
     const {
-      options: {
-        useModal,
-        isModalOpen,
-        onModalRequestClose,
-        containerId,
-        containerEl,
-        shouldCloseOnOverlayClick,
-        ...otherOptions
-      },
-      ...otherProps
-    } = this.props
+      useModal,
+      isModalOpen,
+      onModalRequestClose,
+      containerId,
+      containerEl,
+      shouldCloseOnOverlayClick,
+    } = options
 
     return (
-      <LocaleProvider language={this.props.options.language}>
-        <Modal
-          useModal={useModal}
-          isOpen={isModalOpen}
-          onRequestClose={onModalRequestClose}
-          containerId={containerId}
-          containerEl={containerEl}
-          shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
-        >
-          <Router
-            options={{
-              ...otherOptions,
-              containerId,
-              containerEl,
-              events: this.events,
-            }}
-            {...otherProps}
-          />
-        </Modal>
-      </LocaleProvider>
+      <SdkOptionsProvider options={{ ...options, events: this.events }}>
+        <LocaleProvider language={options.language}>
+          <Modal
+            useModal={useModal}
+            isOpen={isModalOpen}
+            onRequestClose={onModalRequestClose}
+            containerId={containerId}
+            containerEl={containerEl}
+            shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
+          >
+            <Router {...otherProps} />
+          </Modal>
+        </LocaleProvider>
+      </SdkOptionsProvider>
     )
   }
 }
