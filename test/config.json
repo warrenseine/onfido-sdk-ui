@@ -1,11 +1,11 @@
 {
   "tests": [
     {
-      "file": "test/specs/multipleBrowsersDocumentUpload.js",
-      "timeout": 50000,
+      "file": "test/specs/chrome.js",
+      "timeout": 30000,
       "browsers": [
         {
-          "browserName": "safari",
+          "browserName": "chrome",
           "remote": false
         }
       ]
@@ -13,6 +13,6 @@
   ],
   "localhostUrl": "https://localhost:8080",
   "supportedLanguages": ["en_US", "es_ES", "de_DE", "fr_FR"],
-  "fullTestCoverageLanguages": ["en_US", "es_ES"],
+  "fullTestCoverageLanguages": ["en_US"],
   "testDeviceMobileNumber": "07495 023357"
 }

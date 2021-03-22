@@ -5,8 +5,8 @@ import { localhostUrl, testDeviceMobileNumber } from '../../config.json'
 import {
   goToPassportUploadScreen,
   uploadFileAndClickConfirmButton,
+  switchBrowserTab,
 } from './sharedFlows.js'
-import { switchBrowserTab } from '../../utils/helper'
 
 const options = {
   pageObjects: [
@@ -433,7 +433,7 @@ export const crossDeviceScenarios = async (lang) => {
         crossDeviceSubmit.clickOnSubmitVerificationButton()
         verificationComplete.checkLogoIsHidden()
       })
-      it('should show the cobrand logo and onfido logo on all screens when showLogoCobrand is enabled and token has feature enabled', async () => {
+      it.only('should show the cobrand logo and onfido logo on all screens when showLogoCobrand is enabled and token has feature enabled', async () => {
         driver.get(`${baseUrl}&showLogoCobrand=true`)
         welcome.checkLogoCobrandIsVisible()
         welcome.continueToNextStep()

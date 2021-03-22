@@ -70,7 +70,7 @@ describe(
       )
     })
 
-    it.only('should show cross device intro screen if camera not detected and uploadFallback disabled', async () => {
+    it('should show cross device intro screen if camera not detected and uploadFallback disabled', async () => {
       goToPassportUploadScreen(
         driver,
         welcome,
