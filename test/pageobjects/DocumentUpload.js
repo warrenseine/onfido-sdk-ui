@@ -34,9 +34,16 @@ class DocumentUpload extends BasePage {
     const pathToTestFiles = '../resources/'
     // This will detect local file, ref: https://www.browserstack.com/automate/node#enhancements-uploads-downloads
     this.driver.setFileDetector(new remote.FileDetector())
-    const sendKeysToElement = input.sendKeys(
-      path.join(__dirname, pathToTestFiles + filename)
-    )
+    const filePath = path.join(__dirname, pathToTestFiles + filename)
+    let sendKeysToElement
+    try {
+      console.log(`File being uploaded is ${filePath}`)
+      sendKeysToElement = input.sendKeys(path.join(filePath))
+    } catch (err) {
+      console.log(
+        'You should only see this if you are uploading a file on Safari'
+      )
+    }
     return sendKeysToElement
   }
 

@@ -2,6 +2,7 @@ import { Builder, Capabilities } from 'selenium-webdriver'
 const firefox = require('selenium-webdriver/firefox')
 const safari = require('selenium-webdriver/safari')
 const chrome = require('selenium-webdriver/chrome')
+const edge = require('selenium-webdriver/edge')
 import remote from 'selenium-webdriver/remote'
 import config from './config.json'
 import Mocha from 'mocha'
@@ -14,6 +15,8 @@ import { exec } from 'child_process'
 import chalk from 'chalk'
 import https from 'https'
 import * as Console from 'console'
+
+let browserStackFailures = 0
 
 if (!process.env.BROWSERSTACK_USERNAME) {
   console.error('ERROR: BrowserStack username not set')
@@ -44,6 +47,7 @@ const browserstackLocalDefault = {
   key: bsCapabilitiesDefault['browserstack.key'],
 }
 
+let isRemoteBrowser
 const currentDate = Date.now().toString()
 const random = () => Math.random().toString(36).substring(7)
 
@@ -58,6 +62,7 @@ const random = () => Math.random().toString(36).substring(7)
 */
 
 const chromeOptions = new chrome.Options()
+  .setAcceptInsecureCerts(true)
   .addArguments('--use-fake-device-for-media-stream')
   .addArguments('--use-fake-ui-for-media-stream')
   .addArguments(
@@ -66,9 +71,25 @@ const chromeOptions = new chrome.Options()
   .addArguments('--ignore-certificate-errors')
   .addArguments('--ignore-ssl-errors=yes')
 
-const firefoxOptions = new firefox.Options().setAcceptInsecureCerts(true)
+const firefoxOptions = new firefox.Options()
+  .setAcceptInsecureCerts(true)
+  .setPreference('media.navigator.permission.disabled', true)
+  .setPreference('permissions.default.microphone', 1)
+  .setPreference('permissions.default.camera', 1)
 
-const safariOptions = new safari.Options().setAcceptInsecureCerts(false)
+const safariOptions = new safari.Options()
+  .setAcceptInsecureCerts(false)
+  .set('w3c', false)
+
+const edgeOptions = new edge.Options()
+  .setAcceptInsecureCerts(true)
+  .addArguments('allow-file-access-from-files')
+  .addArguments('use-fake-device-for-media-stream')
+  .addArguments('use-fake-ui-for-media-stream')
+  .addArguments(
+    `--use-file-for-fake-video-capture=${__dirname}/resources/test-stream.y4m`
+  )
+  .addArguments('--disable-features=EnableEphemeralFlashPermission')
 
 //const safariOptions = {
 //  args: ['--ignore-certificate-errors'],
@@ -97,10 +118,10 @@ const createDriver = ({ name, localIdentifier }) => (browser) =>
         .setChromeOptions(chromeOptions)
         .setFirefoxOptions(firefoxOptions)
         .setSafariOptions(safariOptions)
+        .setEdgeOptions(edgeOptions)
 
 const createBrowser = async (browser, testCase) => {
   const localIdentifier = random()
-
   const bsLocal = browser.remote
     ? await createBrowserStackLocal({
         ...browserstackLocalDefault,
@@ -115,8 +136,10 @@ const createBrowser = async (browser, testCase) => {
 
   await driver.manage().setTimeouts({
     implicit: 10000,
-    pageLoad: 10000,
+    pageLoad: 40000,
   })
+
+  isRemoteBrowser = browser.remote
 
   if (browser.remote) driver.setFileDetector(new remote.FileDetector())
   const quitAll = async () => {
@@ -157,6 +180,40 @@ const createMocha = (driver, testCase) => {
   // By default `require` caches files, making it impossible to require the same file multiple times.
   // Since we want to execute the same tests against many browsers we need to prevent this behaviour by
   // clearing the require cache.
+  mocha.suite.beforeAll('Do something before everything', function () {
+    console.log('before all!!!')
+  })
+  mocha.suite.afterEach('Capture total number of test failures', function () {
+    const currentTestState = this.currentTest.state
+    const currentTestTitle = this.currentTest.title
+    //console.log(`The current test state is: ${currentTestState}`)
+    //As we are running a 'single' test as test/specs/safari.js, we will only be able to report a single error
+    //i.e. if we have 3 failures...BS will only log the first one.
+    if (currentTestState === 'failed' && isRemoteBrowser) {
+      browserStackFailures += 1
+    }
+  })
+  mocha.suite.afterAll('Report test failures to BrowserStack', function () {
+    if (browserStackFailures > 0) {
+      driver.executeScript(
+        `browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "There were test failures!"}}`
+      )
+    }
+    if (browserStackFailures === 0) {
+      driver.executeScript(
+        `browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "No tests failed!"}}`
+      )
+    }
+  })
+  //mocha.suite.beforeEach('Skip some tests', function () {
+  // eslint-disable-next-line no-undef
+  // eslint-disable-next-line no-undef
+  //if (bsLocal) {
+  //  console.log('Skipping test as its running on BS')
+  //  this.skip()
+  //}
+  //})
+
   mocha.suite.on('require', (global, file) => {
     delete require.cache[file]
   })
@@ -179,7 +236,7 @@ const printTestInfo = (browser, testCase) => {
 }
 
 const runner = async () => {
-  let totalFailures = 0
+  //let totalFailures = 0
 
   await eachP(config.tests, async (testCase) => {
     await asyncForEach(testCase.browsers, async (browser) => {
@@ -190,10 +247,10 @@ const runner = async () => {
         const mocha = createMocha(driver, testCase)
 
         printTestInfo(browser, testCase)
-
-        const failures = await mocha.runP()
-        totalFailures += failures
-        console.log(`Number of failures in ${currentBrowser} tests:`, failures)
+        //const failures =
+        await mocha.runP()
+        //totalFailures += failures
+        console.log(`Number of failures in ${currentBrowser} tests:`, browserStackFailures)
         await driver.finish()
       } catch (e) {
         console.log(`Error executing ${currentBrowser} test case`, e)
@@ -203,7 +260,7 @@ const runner = async () => {
   })
 
   console.log(chalk.green('Tests finished'))
-  process.exit(totalFailures > 0 ? 1 : 0)
+  process.exit(browserStackFailures > 0 ? 1 : 0)
 }
 
 const killMockServer = (dockerContainerId) => {

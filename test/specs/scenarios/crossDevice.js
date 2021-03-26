@@ -433,7 +433,7 @@ export const crossDeviceScenarios = async (lang) => {
         crossDeviceSubmit.clickOnSubmitVerificationButton()
         verificationComplete.checkLogoIsHidden()
       })
-      it.only('should show the cobrand logo and onfido logo on all screens when showLogoCobrand is enabled and token has feature enabled', async () => {
+      it('should show the cobrand logo and onfido logo on all screens when showLogoCobrand is enabled and token has feature enabled', async () => {
         driver.get(`${baseUrl}&showLogoCobrand=true`)
         welcome.checkLogoCobrandIsVisible()
         welcome.continueToNextStep()
@@ -454,7 +454,7 @@ export const crossDeviceScenarios = async (lang) => {
         confirm.checkLogoCobrandIsVisible()
         confirm.clickConfirmButton()
         crossDeviceClientSuccess.checkLogoCobrandIsVisible()
-        switchBrowserTab(0)
+        switchBrowserTab(0, driver)
         crossDeviceSubmit.checkLogoCobrandIsVisible()
         crossDeviceSubmit.clickOnSubmitVerificationButton()
         verificationComplete.checkLogoCobrandIsVisible()

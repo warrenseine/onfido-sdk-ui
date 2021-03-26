@@ -2,7 +2,7 @@
   "tests": [
     {
       "file": "test/specs/safari.js",
-      "timeout": 60000,
+      "timeout": 50000,
       "browsers": [
         {
           "browserName": "Safari",
@@ -16,7 +16,7 @@
     }
   ],
   "localhostUrl": "https://bs-local.com:8080/",
-  "supportedLanguages": ["en_US", "es_ES", "de_DE", "fr_FR"],
-  "fullTestCoverageLanguages": ["en_US", "es_ES"],
+  "supportedLanguages": ["en_US"],
+  "fullTestCoverageLanguages": ["en_US"],
   "testDeviceMobileNumber": "07495 023357"
 }
