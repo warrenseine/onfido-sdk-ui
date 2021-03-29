@@ -120,12 +120,14 @@ export const faceScenarios = (lang) => {
       )
       selfieIntro.verifyUIElementsOnTheSelfieIntroScreen(copy)
       selfieIntro.clickOnContinueButton()
+      camera.enableCameraAccessIfNecessary() //Had to put this in for Safari, , on BS...it says no face found.
       camera.verifySelfieTitle(copy)
       camera.verifyOnfidoFooterIsVisible()
       camera.takeSelfie()
       confirm.clickConfirmButton()
       verificationComplete.verifyUIElements(copy)
       verificationComplete.checkBackArrowIsNotDisplayed()
+      //On Safari, on BS the no face error is seen?
     })
 
     it('should complete the flow when snapshot is disabled', async () => {
@@ -143,10 +145,12 @@ export const faceScenarios = (lang) => {
       )
       selfieIntro.verifyUIElementsOnTheSelfieIntroScreen(copy)
       selfieIntro.clickOnContinueButton()
+      camera.enableCameraAccessIfNecessary() //Had to put this in for Safari, on BS...it says no face found.
       camera.takeSelfie()
       confirm.clickConfirmButton()
       verificationComplete.verifyUIElements(copy)
       verificationComplete.checkBackArrowIsNotDisplayed()
+      //On Safari, on BS the no face error is seen?
     })
 
     // @TODO: Bring back these tests once the face detection service is re-enabled
@@ -394,6 +398,7 @@ export const faceScenarios = (lang) => {
         'passport.jpg'
       )
       selfieIntro.clickOnContinueButton()
+      camera.enableCameraAccessIfNecessary() //Had to put this in for Safari, , on BS...it says no face found.
       camera.takeSelfie()
       confirm.clickConfirmButton()
     })
@@ -412,6 +417,7 @@ export const faceScenarios = (lang) => {
         'passport.jpg'
       )
       selfieIntro.clickOnContinueButton()
+      camera.enableCameraAccessIfNecessary() //Had to put this in for Safari, , on BS...it says no face found.
       camera.takeSelfie()
       confirm.clickConfirmButton()
     })

@@ -47,7 +47,8 @@ const browserstackLocalDefault = {
   key: bsCapabilitiesDefault['browserstack.key'],
 }
 
-let isRemoteBrowser
+export let isRemoteBrowser
+export let browserName
 const currentDate = Date.now().toString()
 const random = () => Math.random().toString(36).substring(7)
 
@@ -140,6 +141,7 @@ const createBrowser = async (browser, testCase) => {
   })
 
   isRemoteBrowser = browser.remote
+  browserName = browser.browserName
 
   if (browser.remote) driver.setFileDetector(new remote.FileDetector())
   const quitAll = async () => {
@@ -182,6 +184,8 @@ const createMocha = (driver, testCase) => {
   // clearing the require cache.
   mocha.suite.beforeAll('Do something before everything', function () {
     console.log('before all!!!')
+    global.isRemoteBrowser = isRemoteBrowser
+    global.browserName = browserName
   })
   mocha.suite.afterEach('Capture total number of test failures', function () {
     const currentTestState = this.currentTest.state
@@ -189,17 +193,17 @@ const createMocha = (driver, testCase) => {
     //console.log(`The current test state is: ${currentTestState}`)
     //As we are running a 'single' test as test/specs/safari.js, we will only be able to report a single error
     //i.e. if we have 3 failures...BS will only log the first one.
-    if (currentTestState === 'failed' && isRemoteBrowser) {
+    if (currentTestState === 'failed') {
       browserStackFailures += 1
     }
   })
   mocha.suite.afterAll('Report test failures to BrowserStack', function () {
-    if (browserStackFailures > 0) {
+    if (browserStackFailures > 0 && isRemoteBrowser) {
       driver.executeScript(
         `browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "There were test failures!"}}`
       )
     }
-    if (browserStackFailures === 0) {
+    if (browserStackFailures === 0 && isRemoteBrowser) {
       driver.executeScript(
         `browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"passed","reason": "No tests failed!"}}`
       )
@@ -250,7 +254,10 @@ const runner = async () => {
         //const failures =
         await mocha.runP()
         //totalFailures += failures
-        console.log(`Number of failures in ${currentBrowser} tests:`, browserStackFailures)
+        console.log(
+          `Number of failures in ${currentBrowser} tests:`,
+          browserStackFailures
+        )
         await driver.finish()
       } catch (e) {
         console.log(`Error executing ${currentBrowser} test case`, e)

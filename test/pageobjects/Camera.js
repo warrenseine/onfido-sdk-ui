@@ -1,26 +1,33 @@
 import BasePage from './BasePage.js'
 import { verifyElementCopy } from '../utils/mochaw'
 import { assert } from 'chai'
+import { browserName } from '../main'
 
 class Camera extends BasePage {
   async enableCameraButton() {
     return this.$('[data-onfido-qa="enable-camera-btn"]')
   }
+
   async nextChallengeButton() {
     return this.$('[data-onfido-qa="liveness-next-challenge-btn"]')
   }
+
   async shutterButton() {
     return this.$('.onfido-sdk-ui-Camera-btn')
   }
+
   async recordButton() {
     return this.$('.onfido-sdk-ui-Video-startRecording')
   }
+
   async stopButton() {
     return this.$('.onfido-sdk-ui-Video-stopRecording')
   }
+
   async warningMessage() {
     return this.$('.onfido-sdk-ui-Error-container-warning')
   }
+
   async faceOverlay() {
     return this.$('[data-onfido-qa="faceOverlay"]')
   }
@@ -59,6 +66,14 @@ class Camera extends BasePage {
   async completeChallenges() {
     this.nextChallengeButton().click()
     this.stopButton().click()
+  }
+
+  async enableCameraAccessIfNecessary() {
+    if (browserName === 'safari' || browserName === 'Safari') {
+      if (this.enableCameraButton().isDisplayed) {
+        this.enableCameraButton().click()
+      }
+    }
   }
 }
 

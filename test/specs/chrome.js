@@ -13,7 +13,7 @@ import { hostAppHistoryScenarios } from './scenarios/hostAppHistory'
 import { accessibilityScenarios } from './scenarios/accessibility'
 import { userConsentScenarios } from './scenarios/userConsent'
 
-describe('Happy Paths on Chrome', () => {
+describe('Happy Paths on Chrome and FF', () => {
   // Multiple language scenarios
   fullTestCoverageLanguages.forEach((lang) => {
     welcomeScenarios(lang)

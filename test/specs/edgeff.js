@@ -32,7 +32,7 @@ describe('BS Happy Paths on Edge and Firefox', () => {
   })
   // PoA is only available in en
   proofOfAddressScenarios() //these are failing due to user being redirected to another ui flow ... send me to get secure link page?
-  accessibilityScenarios() //TODO
+  accessibilityScenarios() //11 failures for FF on BS, all pass on FF locally, 7 failures on Edge.
   hostAppHistoryScenarios() //seems to fail to selfie upload, or anything to do with face.jpeg
   userConsentScenarios() //pass ok
 })

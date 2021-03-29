@@ -149,6 +149,7 @@ export const countrySelectorScenarios = async (lang) => {
         countrySelector.verifySubmitDocumentBtnIsEnabled()
       })
 
+      //This could be optimised on Safari, the last set of checks after TAB is clicked.
       it('should display "Country not found" message and error variant of help icon when searching for "xyz"', async () => {
         driver.get(url)
         welcome.continueToNextStep()

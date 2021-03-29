@@ -72,9 +72,10 @@ export const crossDeviceScenarios = async (lang) => {
         const crossDeviceLinkText = crossDeviceLink
           .copyLinkTextContainer()
           .getText()
+        //driver.executeScript(`window.open("${crossDeviceLinkText}","_blank");`)
         driver.executeScript("window.open('your url','_blank');")
         //switchBrowserTab(1)
-        switchBrowserTab(1, driver)
+        await switchBrowserTab(1, driver)
         driver.get(crossDeviceLinkText)
       }
 
@@ -90,7 +91,7 @@ export const crossDeviceScenarios = async (lang) => {
         crossDeviceLink.switchToCopyLinkOption()
         copyCrossDeviceLinkAndOpenInNewTab()
         //switchBrowserTab(0)
-        switchBrowserTab(0, driver)
+        await switchBrowserTab(0, driver)
         crossDeviceMobileConnected.tipsHeader().isDisplayed()
         crossDeviceMobileConnected.verifyUIElements(copy)
         //switchBrowserTab(1)
@@ -218,6 +219,7 @@ export const crossDeviceScenarios = async (lang) => {
 
       it('should send sms and navigate to "Check your mobile" screen ', async () => {
         driver.get(baseUrl)
+        driver.navigate().refresh()
         goToCrossDeviceScreen()
         crossDeviceLink.switchToSendSmsOption()
         crossDeviceLink.typeMobileNumber(testDeviceMobileNumber)
@@ -315,6 +317,7 @@ export const crossDeviceScenarios = async (lang) => {
           'passport.jpg'
         )
         selfieIntro.clickOnContinueButton()
+        camera.enableCameraAccessIfNecessary() //Had to put this in for Safari
         camera.takeSelfie()
         confirm.clickConfirmButton()
         crossDeviceClientSuccess.verifyUIElements(copy)
@@ -340,6 +343,7 @@ export const crossDeviceScenarios = async (lang) => {
           'passport.jpg'
         )
         selfieIntro.clickOnContinueButton()
+        camera.enableCameraAccessIfNecessary() //Had to put this in for Safari
         camera.takeSelfie()
         confirm.clickConfirmButton()
         crossDeviceClientSuccess.verifyUIElements(copy)
@@ -367,6 +371,7 @@ export const crossDeviceScenarios = async (lang) => {
         selfieIntro.checkLogoIsHidden()
         selfieIntro.clickOnContinueButton()
         camera.checkLogoIsHidden()
+        camera.enableCameraAccessIfNecessary() //Had to put this in for Safari
         camera.takeSelfie()
         confirm.checkLogoIsHidden()
         confirm.clickConfirmButton()
@@ -395,6 +400,7 @@ export const crossDeviceScenarios = async (lang) => {
         selfieIntro.checkCobrandIsVisible()
         selfieIntro.clickOnContinueButton()
         camera.checkCobrandIsVisible()
+        camera.enableCameraAccessIfNecessary() //Had to put this in for Safari
         camera.takeSelfie()
         confirm.checkCobrandIsVisible()
         confirm.clickConfirmButton()
@@ -423,6 +429,7 @@ export const crossDeviceScenarios = async (lang) => {
         selfieIntro.checkLogoIsHidden()
         selfieIntro.clickOnContinueButton()
         camera.checkLogoIsHidden()
+        camera.enableCameraAccessIfNecessary() //Had to put this in for Safari
         camera.takeSelfie()
         confirm.checkLogoIsHidden()
         confirm.clickConfirmButton()
@@ -450,6 +457,7 @@ export const crossDeviceScenarios = async (lang) => {
         selfieIntro.checkLogoCobrandIsVisible()
         selfieIntro.clickOnContinueButton()
         camera.checkLogoCobrandIsVisible()
+        camera.enableCameraAccessIfNecessary() //Had to put this in for Safari
         camera.takeSelfie()
         confirm.checkLogoCobrandIsVisible()
         confirm.clickConfirmButton()

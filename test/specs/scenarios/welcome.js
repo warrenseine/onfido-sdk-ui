@@ -6,8 +6,6 @@ const options = {
   pageObjects: ['BasePage', 'Welcome'],
 }
 
-const percySnapshot = require('@percy/selenium-webdriver')
-
 export const welcomeScenarios = async (lang) => {
   describe(
     `WELCOME scenarios in ${lang}`,
@@ -20,10 +18,6 @@ export const welcomeScenarios = async (lang) => {
         driver.get(`${localhostUrl}?language=${lang}`)
         const title = driver.getTitle()
         expect(title).to.equal('Onfido SDK Demo')
-        await percySnapshot(driver, 'Onfido SDK Demo Homepage')
-        //driver.executeScript(
-        //  'browserstack_executor: {"action": "setSessionStatus", "arguments": {"status":"failed","reason": "some reason"}}'
-        //)
       })
 
       it('should verify UI elements on the welcome screen', async () => {

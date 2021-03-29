@@ -5,18 +5,18 @@
       "timeout": 60000,
       "browsers": [
         {
-          "browserName": "Safari",
-          "browser_version": "14",
-          "os": "OS X",
-          "os_version": "Big Sur",
+          "browserName": "safari",
+          "browser_version": "89",
+          "os": "Windows",
+          "os_version": "10",
           "resolution": "1920x1080",
-          "remote": true
+          "remote": false
         }
       ]
     }
   ],
-  "localhostUrl": "https://bs-local.com:8080/",
-  "supportedLanguages": ["en_US", "es_ES", "de_DE", "fr_FR"],
-  "fullTestCoverageLanguages": ["en_US", "es_ES"],
+  "localhostUrl": "https://localhost:8080/",
+  "supportedLanguages": ["en_US"],
+  "fullTestCoverageLanguages": ["en_US"],
   "testDeviceMobileNumber": "07495 023357"
 }

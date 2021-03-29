@@ -18,8 +18,9 @@ const options = {
   ],
 }
 //should show cross device intro screen if camera not detected and uploadFallback disabled
-//For some reason this does not pass on Safari or Chrome on BS or locally?...is it because the camera IS detected?
-//FF and Edge pass...so its possible that the camera is not detected here?
+//For some reason this does not pass on Safari on BS or locally or on Chrome or Firefox locally?...is it because the camera IS detected?
+//Chrome on BS passes, locally it doesnt.
+//FF and Edge pass on BS...so its possible that the camera is not detected here?
 describe(
   'DOCUMENT UPLOAD ON MULTIPLE BROWSERS',
   options,

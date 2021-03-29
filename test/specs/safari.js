@@ -13,14 +13,14 @@ import { hostAppHistoryScenarios } from './scenarios/hostAppHistory'
 import { accessibilityScenarios } from './scenarios/accessibility'
 import { userConsentScenarios } from './scenarios/userConsent'
 
-describe('BS Happy Paths on Safari', () => {
+describe('Happy Paths on Safari Locally and BS', () => {
   // Multiple language scenarios
   fullTestCoverageLanguages.forEach((lang) => {
     welcomeScenarios(lang) //fails .. welcome.verifySubtitle(copy) ...seems like Safari renders it on 1 line
     documentSelectorScenarios(lang) //pass
-    countrySelectorScenarios(lang) //some failing intermittently..locally, but all ok on BS!
-    documentScenarios(lang) //about 5 fail, intermittently...no real consistency...needs investigation
-    faceScenarios(lang) // 2 failing....should complete the flow when snapshot is disabled, should take one selfie using the camera stream .... need to allow camera
+    countrySelectorScenarios(lang) //all ok
+    documentScenarios(lang) // all ok
+    faceScenarios(lang) // ok locally, 2 failing on BS....should complete the flow when snapshot is disabled, should take one selfie using the camera stream .... need to allow camera
     crossDeviceScenarios(lang) //....last 10 fail
     modalScenarios(lang) //pass ok
     navigationScenarios(lang) //pass ok
@@ -31,8 +31,10 @@ describe('BS Happy Paths on Safari', () => {
     welcomeScenarios(lang) //pass ok
   })
   // PoA is only available in en
-  proofOfAddressScenarios() //last one fails
+  proofOfAddressScenarios() //last one fails (intermittently locally, but consistently on BS)
   accessibilityScenarios() //one failure ... should verify accessibility for the cross device mobile connected screen
   hostAppHistoryScenarios() //pass ok
   userConsentScenarios() //all pass ok
+  //Percy...
+  //percyScenarios()
 })

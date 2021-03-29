@@ -90,7 +90,7 @@ export const accessibilityScenarios = async (lang = 'en_US') => {
           .copyLinkTextContainer()
           .getText()
         driver.executeScript("window.open('your url','_blank');")
-        switchBrowserTab(1, driver)
+        await switchBrowserTab(1, driver)
         driver.get(crossDeviceLinkText)
       }
 

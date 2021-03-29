@@ -229,16 +229,16 @@ export const proofOfAddressScenarios = async (lang = 'en_US') => {
             .copyLinkTextContainer()
             .getText()
           driver.executeScript("window.open('your url','_blank');")
-          switchBrowserTab(1)
-          //switchBrowserTab(1, driver)
+          //switchBrowserTab(1)
+          await switchBrowserTab(1, driver)
           driver.get(crossDeviceLinkText)
         }
 
         //this is duplicated .... move to helper?
-        const switchBrowserTab = async (tab) => {
-          const browserWindows = driver.getAllWindowHandles()
-          driver.switchTo().window(browserWindows[tab])
-        }
+        //const switchBrowserTab = async (tab) => {
+        //  const browserWindows = driver.getAllWindowHandles()
+        //  driver.switchTo().window(browserWindows[tab])
+        //}
 
         goToPoADocumentSelectionScreen()
         poaDocumentSelection.clickOnBankIcon()
@@ -247,11 +247,11 @@ export const proofOfAddressScenarios = async (lang = 'en_US') => {
         crossDeviceIntro.continueToNextStep()
         crossDeviceLink.switchToCopyLinkOption()
         copyCrossDeviceLinkAndOpenInNewTab()
-        switchBrowserTab(0)
-        //switchBrowserTab(0, driver)
+        //switchBrowserTab(0)
+        switchBrowserTab(0, driver)
         crossDeviceMobileConnected.tipsHeader().isDisplayed()
-        switchBrowserTab(1)
-        //switchBrowserTab(1, driver)
+        //switchBrowserTab(1)
+        switchBrowserTab(1, driver)
         documentUpload.uploaderBtn().isDisplayed()
         uploadFileAndClickConfirmButton(documentUpload, confirm, 'passport.jpg')
         documentSelector.clickOnPassportIcon()
@@ -263,8 +263,8 @@ export const proofOfAddressScenarios = async (lang = 'en_US') => {
         )
         uploadFileAndClickConfirmButton(documentUpload, confirm, 'face.jpeg')
         crossDeviceClientSuccess.verifyUIElements(copy)
-        switchBrowserTab(0)
-        //switchBrowserTab(0, driver)
+        //switchBrowserTab(0)
+        switchBrowserTab(0, driver)
         crossDeviceSubmit.documentUploadedMessage().isDisplayed()
         crossDeviceSubmit.clickOnSubmitVerificationButton()
         verificationComplete.verifyUIElements(copy)
