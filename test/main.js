@@ -165,6 +165,7 @@ const createBrowser = async (browser, testCase) => {
   return driver
 }
 
+// @ts-ignore
 const createMocha = (driver, testCase) => {
   Console.log(testCase.file)
   // Create our Mocha instance
@@ -186,6 +187,9 @@ const createMocha = (driver, testCase) => {
     console.log('before all!!!')
     global.isRemoteBrowser = isRemoteBrowser
     global.browserName = browserName
+  })
+  mocha.suite.beforeEach('Set retry', function () {
+    this.currentTest.retries(2)
   })
   mocha.suite.afterEach('Capture total number of test failures', function () {
     const currentTestState = this.currentTest.state
