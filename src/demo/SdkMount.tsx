@@ -1,10 +1,10 @@
 import { h, FunctionComponent } from 'preact'
 import { memo, useEffect, useRef, useState } from 'preact/compat'
-import { UIConfigs, queryParamToValueString } from './demoUtils'
+import { UIConfigs } from './demoUtils'
 
 import { ServerRegions, SdkHandle, SdkOptions } from '~types/sdk'
 
-import * as OnfidoNpmModule from '../index'
+import * as OnfidoDistBuild from '../../dist/onfido.min.js'
 
 /*
 The SDK can be consumed either via npm or via global window.
@@ -18,12 +18,7 @@ const Onfido = require('../index')
 import * as Onfido from '../index'
 */
 
-const { importAsNpmModule } = queryParamToValueString
-console.log(
-  'queryParamToValueString.importAsNpmModule',
-  queryParamToValueString.importAsNpmModule
-)
-const Onfido = importAsNpmModule ? OnfidoNpmModule : window.Onfido
+const Onfido = OnfidoDistBuild
 
 type Props = {
   options: SdkOptions | UIConfigs
