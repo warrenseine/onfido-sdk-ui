@@ -72,6 +72,10 @@ const SdkDemo: FunctionComponent<Props> = ({
     ...(sdkOptions || {}),
   }
 
+  const importSdkFrom = 'npm'
+  // const importSdkFrom =
+  //   queryParamToValueString.asNpmModule === 'true' ? 'npm' : 'dist'
+
   return (
     <div className="container">
       {options.useModal && (
@@ -80,7 +84,12 @@ const SdkDemo: FunctionComponent<Props> = ({
         </button>
       )}
       {token && regionCode && tokenUrl && (
-        <SdkMount options={options} regionCode={regionCode} url={tokenUrl} />
+        <SdkMount
+          importFrom={importSdkFrom}
+          options={options}
+          regionCode={regionCode}
+          url={tokenUrl}
+        />
       )}
     </div>
   )

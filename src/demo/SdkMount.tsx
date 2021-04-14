@@ -4,8 +4,6 @@ import { UIConfigs } from './demoUtils'
 
 import { ServerRegions, SdkHandle, SdkOptions } from '~types/sdk'
 
-import * as OnfidoDistBuild from '../../dist/onfido.min.js'
-
 /*
 The SDK can be consumed either via npm or via global window.
 Via npm there are also two ways, via commonjs require or via ES import.
@@ -18,9 +16,14 @@ const Onfido = require('../index')
 import * as Onfido from '../index'
 */
 
-const Onfido = OnfidoDistBuild
+// import NpmModuleSDK from 'onfido-sdk-ui'
+// import * as distSDK from '../../dist/onfido.min.js'
+// const Onfido = NpmModuleSDK || window.Onfido
+
+const Onfido = window.Onfido
 
 type Props = {
+  importFrom: 'npm' | 'dist'
   options: SdkOptions | UIConfigs
   regionCode: ServerRegions
   url: string
