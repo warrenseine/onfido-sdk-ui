@@ -1,0 +1,14 @@
+{
+  "name": "onfido-web-sdk-demo-app",
+  "version": "1.0.0",
+  "description": "Onfido identity verification SDK Demo App",
+  "main": "demo.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Web SDK Customer Support <web-sdk@onfido.com> (https://github.com/onfido)",
+  "license": "SEE LICENSE IN ./LICENSE",
+  "dependencies": {
+    "onfido-sdk-ui": "file:../.."
+  }
+}
