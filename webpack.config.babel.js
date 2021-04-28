@@ -267,6 +267,7 @@ const configDist = {
     onfido: './index.tsx',
     demo: './demo/demo.tsx',
     previewer: './demo/previewer.tsx',
+    distImport: './dist-import-app/index.js',
   },
 
   output: {
@@ -342,6 +343,15 @@ const configDist = {
       JWT_FACTORY: CONFIG.JWT_FACTORY,
       DESKTOP_SYNC_URL: CONFIG.DESKTOP_SYNC_URL,
       chunks: ['previewer'],
+    }),
+    new HtmlWebpackPlugin({
+      template: './dist-import-app/index.html',
+      filename: './distImport/index.html',
+      minify: { collapseWhitespace: true },
+      inject: 'body',
+      JWT_FACTORY: CONFIG.JWT_FACTORY,
+      DESKTOP_SYNC_URL: CONFIG.DESKTOP_SYNC_URL,
+      chunks: ['distImport'],
     }),
     ...(PRODUCTION_BUILD
       ? [
