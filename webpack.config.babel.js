@@ -1,5 +1,6 @@
 import webpack from 'webpack'
 import packageJson from './package.json'
+// import CopyWebpackPlugin from 'copy-webpack-plugin'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import TerserPlugin from 'terser-webpack-plugin'
@@ -353,6 +354,18 @@ const configDist = {
       DESKTOP_SYNC_URL: CONFIG.DESKTOP_SYNC_URL,
       chunks: ['distImport'],
     }),
+    // new CopyWebpackPlugin({
+    //   patterns: [
+    //     {
+    //       from: `${__dirname}/dist`,
+    //       to: './distImport/',
+    //       toType: 'dir',
+    //       globOptions: {
+    //         ignore: ['*.DS_Store', 'Thumbs.db'],
+    //       },
+    //     },
+    //   ],
+    // }),
     ...(PRODUCTION_BUILD
       ? [
           new webpack.LoaderOptionsPlugin({
