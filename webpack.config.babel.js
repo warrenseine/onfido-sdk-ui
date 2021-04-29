@@ -347,7 +347,7 @@ const configDist = {
     }),
     new HtmlWebpackPlugin({
       template: './dist-import-app/index.html',
-      filename: './distImport/index.html',
+      filename: './dist-import-app/index.html',
       minify: { collapseWhitespace: true },
       inject: 'body',
       JWT_FACTORY: CONFIG.JWT_FACTORY,
@@ -357,8 +357,8 @@ const configDist = {
     // new CopyWebpackPlugin({
     //   patterns: [
     //     {
-    //       from: `${__dirname}/dist`,
-    //       to: './distImport/',
+    //       from: './dist-import-app/dist',
+    //       to: './dist-import-app',
     //       toType: 'dir',
     //       globOptions: {
     //         ignore: ['*.DS_Store', 'Thumbs.db'],
