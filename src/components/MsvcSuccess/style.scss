@@ -12,7 +12,7 @@
   background-position: center;
   height: 13 * $unit;
   width: 13 * $unit;
-  color: blue;
+  color: '#3640f5';
   margin-right: 8 * $unit;
 }
 
@@ -20,7 +20,7 @@
   @extend %_icon;
   background-image: url('assets/exclamation-icon.svg');
   font-size: 30px;
-  margin-right: 0px;
+  margin-right: 1px;
 }
 
 .alertText {

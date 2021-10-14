@@ -14,7 +14,9 @@ declare const STEP_FACE = "face";
 declare const STEP_COMPLETE = "complete";
 declare const STEP_AUTH = "auth";
 declare const STEP_CROSS_DEVICE_SESSION_INTRO = "crossDeviceSessionIntro";
-export declare type StepTypes = typeof STEP_WELCOME | typeof STEP_USER_CONSENT | typeof STEP_DOCUMENT | typeof STEP_POA | typeof STEP_FACE | typeof STEP_COMPLETE | typeof STEP_AUTH | typeof STEP_CROSS_DEVICE_SESSION_INTRO;
+declare const STEP_MSVC_CONSENT = "msvcConsent";
+declare const STEP_MSVC_QR_CODE = "msvcQrCode";
+export declare type StepTypes = typeof STEP_WELCOME | typeof STEP_USER_CONSENT | typeof STEP_DOCUMENT | typeof STEP_POA | typeof STEP_FACE | typeof STEP_COMPLETE | typeof STEP_AUTH | typeof STEP_CROSS_DEVICE_SESSION_INTRO | typeof STEP_MSVC_CONSENT | typeof STEP_MSVC_QR_CODE;
 export declare type DocumentTypes = "passport" | "driving_licence" | "national_identity_card" | "residence_permit";
 export declare type PoaTypes = "bank_building_society_statement" | "utility_bill" | "council_tax" | "benefit_letters" | "government_letter";
 export declare type RequestedVariant = "standard" | "video";
@@ -64,6 +66,8 @@ export declare type StepOptionsMap = {
 	poa: StepOptionPoA;
 	face: StepOptionFace;
 	complete: StepOptionComplete;
+	msvcConsent: never;
+	msvcQrCode: never;
 };
 export declare type StepConfigMap = {
 	[Type in StepTypes]: {
@@ -79,7 +83,9 @@ export declare type StepConfigDocument = StepConfigMap["document"];
 export declare type StepConfigPoa = StepConfigMap["poa"];
 export declare type StepConfigFace = StepConfigMap["face"];
 export declare type StepConfigComplete = StepConfigMap["complete"];
-export declare type StepConfig = StepConfigWelcome | StepConfigUserConsent | StepConfigDocument | StepConfigPoa | StepConfigFace | StepConfigComplete | StepConfigAuth | StepConfigCrossDeviceSessionIntro;
+export declare type StepConfigMsvcQrCode = StepConfigMap["msvcQrCode"];
+export declare type StepConfigMsvcConsent = StepConfigMap["msvcConsent"];
+export declare type StepConfig = StepConfigWelcome | StepConfigUserConsent | StepConfigDocument | StepConfigPoa | StepConfigFace | StepConfigComplete | StepConfigAuth | StepConfigCrossDeviceSessionIntro | StepConfigMsvcConsent | StepConfigMsvcQrCode;
 export declare type UICustomizationOptions = {
 	colorBackgroundSurfaceModal?: string;
 	colorBorderSurfaceModal?: string;
