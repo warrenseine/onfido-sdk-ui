@@ -60,6 +60,8 @@ const initialStateWithoutMediaStream: Omit<State, 'hasMediaStream'> = {
   isRecording: false,
 }
 
+const IDEAL_CAMERA_WIDTH_IN_PX = 1080 // Full HD 1080p
+
 const RECORDING_TIMEOUT_ERRORS_MAP: Record<CaptureMethods, ErrorProp> = {
   face: {
     name: 'FACE_VIDEO_TIMEOUT',
@@ -226,6 +228,7 @@ export default class VideoCapture extends Component<Props, State> {
 
     return (
       <Camera
+        idealCameraWidth={IDEAL_CAMERA_WIDTH_IN_PX}
         audio={audio}
         buttonType="video"
         containerClassName={cameraClassName}
