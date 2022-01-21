@@ -1,8 +1,7 @@
 import { h } from 'preact'
 import { Button } from '@onfido/castor-react'
 import classNames from 'classnames'
-import { localised } from '~locales'
-import { WithLocalisedProps } from '~types/hocs'
+import { useLocales } from '~locales'
 import { TranslateCallback } from '~types/locales'
 import { StepComponentFaceProps } from '~types/routers'
 import { trackComponent } from '../../Tracker'
@@ -13,7 +12,11 @@ import theme from '../Theme/style.scss'
 import style from './style.scss'
 
 type Instruction = { key: string; text: string }
-type IntroProps = WithLocalisedProps & StepComponentFaceProps
+type IntroProps = StepComponentFaceProps
+type ActionsProps = {
+  nextStep: () => void
+  translate: TranslateCallback
+}
 
 const InstructionsPure = ({
   listScreenReaderText,
@@ -44,13 +47,7 @@ const InstructionsPure = ({
   </div>
 )
 
-const Actions = ({
-  nextStep,
-  translate,
-}: {
-  nextStep: () => void
-  translate: TranslateCallback
-}) => (
+const Actions = ({ nextStep, translate }: ActionsProps) => (
   <Button
     type="button"
     variant="primary"
@@ -63,11 +60,12 @@ const Actions = ({
 )
 
 const Intro = ({
-  translate,
   nextStep,
   steps,
   autoFocusOnInitialScreenTitle,
 }: IntroProps) => {
+  const { translate } = useLocales()
+
   const instructions: Array<Instruction> = [
     {
       key: 'selfie',
@@ -99,6 +97,6 @@ const Intro = ({
 }
 
 export default trackComponent(
-  localised(withCrossDeviceWhenNoCamera(Intro)),
+  withCrossDeviceWhenNoCamera(Intro),
   'selfie_intro'
 )
