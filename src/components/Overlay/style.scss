@@ -26,6 +26,10 @@
   stroke: transparent;
 }
 
+.document .opaque {
+  fill: $color-black;
+}
+
 .document .hollow {
   fill: transparent;
   stroke: $color-white;

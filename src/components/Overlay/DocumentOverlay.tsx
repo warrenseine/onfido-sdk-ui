@@ -182,6 +182,7 @@ const drawInnerFrame = (
 }
 
 export type Props = {
+  isOpaque?: boolean
   ariaLabel?: string
   upperScreen?: boolean
   video?: boolean
@@ -223,6 +224,7 @@ export type Props = {
  *          <====<====<====<====<====<====
  */
 const DocumentOverlay: FunctionComponent<Props> = ({
+  isOpaque = false,
   ariaLabel,
   children,
   upperScreen = false,
@@ -265,7 +267,15 @@ const DocumentOverlay: FunctionComponent<Props> = ({
         shapeRendering="geometricPrecision"
         viewBox={`0 0 ${viewport.width} ${viewport.height}`}
       >
-        <path className={style.fullScreen} d={`${outer} ${inner}`} />
+        <path
+          className={classNames([
+            style.fullScreen,
+            {
+              [style.opaque]: isOpaque,
+            },
+          ])}
+          d={`${outer} ${inner}`}
+        />
         <path className={style.hollow} d={inner} />
       </svg>
       <div

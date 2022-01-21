@@ -12,7 +12,7 @@ import {
 } from '~utils/onfidoApi'
 import { poaDocumentTypes } from '../DocumentSelector/documentTypes'
 import Spinner from '../Spinner'
-import Previews from './Previews'
+import { DocumentImagePreview } from '../DocumentMultiFrame'
 
 // The number of additional image quality retries
 // that should return an error if an image quality validation is detected.
@@ -406,7 +406,7 @@ class Confirm extends Component {
     }
 
     return (
-      <Previews
+      <DocumentImagePreview
         isFullScreen={isFullScreen}
         capture={capture}
         retakeAction={this.onRetake}

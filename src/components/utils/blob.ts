@@ -2,6 +2,7 @@ import supportsWebP from 'supports-webp'
 import loadImage from 'blueimp-load-image'
 import 'blueimp-load-image/js/load-image-orientation'
 import 'blueimp-load-image/js/load-image-exif'
+import { useEffect, useState } from 'preact/compat'
 
 type Base64ResultCallback = (result: string) => void
 type CanvasResultCallback = (canvas: HTMLCanvasElement) => void
@@ -169,4 +170,16 @@ export const hmac256 = async (
     .join('')
 
   return digest
+}
+
+export const useBlobToLossyBase64 = (blob: Blob) => {
+  const [base64, setBase64] = useState('')
+
+  useEffect(() => {
+    blobToLossyBase64(blob, setBase64, () =>
+      console.error('An error occurred converting a blob to base64')
+    )
+  })
+
+  return { base64 }
 }

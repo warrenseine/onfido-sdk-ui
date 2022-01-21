@@ -45,14 +45,15 @@ export function withFullScreenAction<P>(
   return WithFullScreenComponent
 }
 
-export const ToggleFullScreen: FunctionComponent = () => {
+export const useToggleFullScreen = () => {
   const dispatch = useDispatch<Dispatch<CombinedActions>>()
-
   useEffect(() => {
     dispatch(setFullScreen(true))
-
     return () => dispatch(setFullScreen(false))
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
+}
 
+export const ToggleFullScreen: FunctionComponent = () => {
+  useToggleFullScreen()
   return null
 }
