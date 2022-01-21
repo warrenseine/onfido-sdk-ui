@@ -108,6 +108,7 @@ export const uploadDocument = (
     sendFile(endpoint, data, token, onSuccess || resolve, onError || reject)
   )
 }
+
 export const uploadDocumentVideoMedia = (
   payload: UploadDocumentVideoMediaPayload,
   url: string | undefined,

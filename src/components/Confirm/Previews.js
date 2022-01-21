@@ -1,19 +1,14 @@
-import classNames from 'classnames'
 import { h } from 'preact'
+import classNames from 'classnames'
 import { localised } from '~locales'
-import { CaptureMethods } from '~types/commons'
-import { WithLocalisedProps } from '~types/hocs'
-import { CapturePayload } from '~types/redux'
-import { ErrorProp } from '~types/routers'
-import { DocumentTypes, PoaTypes, RequestedVariant } from '~types/steps'
-import { CONFIRM_PREVIEWS_LOCALES_MAPPING } from '~utils/localesMapping'
 import CaptureViewer from '../CaptureViewer'
-import Error from '../Error'
-import PageTitle from '../PageTitle'
-import ScreenLayout from '../Theme/ScreenLayout'
-import theme from '../Theme/style.scss'
 import Actions from './Actions'
+import PageTitle from '../PageTitle'
+import Error from '../Error'
+import { CONFIRM_PREVIEWS_LOCALES_MAPPING } from '~utils/localesMapping'
+import theme from '../Theme/style.scss'
 import style from './style.scss'
+import ScreenLayout from '../Theme/ScreenLayout'
 
 const getMessageKey = ({
   capture,
@@ -22,16 +17,9 @@ const getMessageKey = ({
   error,
   forceRetake,
   method,
-}: {
-  error?: ErrorProp
-  capture: CapturePayload
-  poaDocumentType: PoaTypes
-  forceRetake: boolean
-  documentType: DocumentTypes
-  method: CaptureMethods
 }) => {
   if (method === 'face') {
-    return capture.variant === 'video' ? '' : 'selfie_confirmation.subtitle'
+    return capture.variant === 'video' ? null : 'selfie_confirmation.subtitle'
   }
 
   // In case of real error encountered but there's a `forceRetake` flag activated
@@ -43,17 +31,14 @@ const getMessageKey = ({
     return 'doc_confirmation.body_image_poor'
   }
 
-  if (error && error.type === 'warning') {
+  if (error && error.type === 'warn') {
     return 'doc_confirmation.body_image_medium'
   }
 
   return CONFIRM_PREVIEWS_LOCALES_MAPPING[documentType || poaDocumentType]
 }
 
-const getNamespace = (
-  method: CaptureMethods,
-  variant: RequestedVariant | undefined
-) => {
+const getNamespace = (method, variant) => {
   if (method === 'face') {
     if (variant === 'video') {
       return 'video_confirmation'
@@ -64,20 +49,6 @@ const getNamespace = (
 
   return 'doc_confirmation'
 }
-
-type PreviewsProps = {
-  isFullScreen: boolean
-  capture: CapturePayload
-  retakeAction: () => void
-  confirmAction: () => void
-  isUploading: boolean
-  error?: ErrorProp
-  method: CaptureMethods
-  documentType: DocumentTypes
-  poaDocumentType: PoaTypes
-  forceRetake: boolean
-  onVideoError: () => void
-} & WithLocalisedProps
 
 const Previews = localised(
   ({
@@ -93,7 +64,7 @@ const Previews = localised(
     isUploading,
     forceRetake,
     onVideoError,
-  }: PreviewsProps) => {
+  }) => {
     const methodNamespace = getNamespace(method, capture.variant)
     /**
      * Possible locale keys for `title`:
@@ -133,7 +104,7 @@ const Previews = localised(
     )
 
     return (
-      <ScreenLayout actions={!isFullScreen ? actions : undefined}>
+      <ScreenLayout actions={!isFullScreen && actions}>
         <div
           className={classNames(
             style.previewsContainer,
@@ -143,7 +114,7 @@ const Previews = localised(
             }
           )}
         >
-          {isFullScreen ? null : error && error.type ? (
+          {isFullScreen ? null : error.type ? (
             <Error
               {...{
                 error,
