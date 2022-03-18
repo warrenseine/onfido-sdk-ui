@@ -2,6 +2,7 @@ import { h, Component } from 'preact'
 import { connect } from 'react-redux'
 import { Button } from '@onfido/castor-react'
 import classNames from 'classnames'
+import ScreenLayout from 'components/Theme/ScreenLayout'
 import { trackComponent } from '../../../Tracker'
 import PageTitle from '../../PageTitle'
 import { localised } from '~locales'
@@ -71,62 +72,57 @@ class CrossDeviceSubmit extends Component<Props, State> {
         ? 'cross_device_checklist.list_item_video'
         : 'cross_device_checklist.list_item_selfie'
 
+    const actions = (
+      <Button
+        type="button"
+        variant="primary"
+        className={classNames(theme['button-centered'], theme['button-lg'])}
+        onClick={this.handleSubmitButtonClick}
+        disabled={this.state.isSubmitDisabled}
+        data-onfido-qa="cross-device-submit-btn"
+      >
+        {translate('cross_device_checklist.button_primary')}
+      </Button>
+    )
+
     return (
-      <div data-page-id={'CrossDeviceSubmit'}>
+      <ScreenLayout pageId="CrossDeviceSubmit" actions={actions}>
         <PageTitle
           title={translate('cross_device_checklist.title')}
           subTitle={translate('cross_device_checklist.subtitle')}
         />
-        <div>
-          <ul
-            className={style.uploadList}
-            aria-label={translate('cross_device_checklist.info')}
-          >
-            {this.hasDocumentOrPoACaptureSteps() && (
-              <li className={style.uploadListItem}>
-                <span className={`${theme.icon} ${style.icon}`} />
-                <span
-                  className={classNames(
-                    style.listText,
-                    style.documentUploadedLabel
-                  )}
-                >
-                  {translate(documentCopy)}
-                </span>
-              </li>
-            )}
-            {this.hasFaceCaptureStep() && (
-              <li className={style.uploadListItem}>
-                <span className={`${theme.icon} ${style.icon}`} />
-                <span
-                  className={classNames(
-                    style.listText,
-                    style[`${faceCaptureVariant}UploadedLabel`]
-                  )}
-                >
-                  {translate(selfieCopy)}
-                </span>
-              </li>
-            )}
-          </ul>
-
-          <div>
-            <Button
-              type="button"
-              variant="primary"
-              className={classNames(
-                theme['button-centered'],
-                theme['button-lg']
-              )}
-              onClick={this.handleSubmitButtonClick}
-              disabled={this.state.isSubmitDisabled}
-              data-onfido-qa="cross-device-submit-btn"
-            >
-              {translate('cross_device_checklist.button_primary')}
-            </Button>
-          </div>
-        </div>
-      </div>
+        <ul
+          className={style.uploadList}
+          aria-label={translate('cross_device_checklist.info')}
+        >
+          {this.hasDocumentOrPoACaptureSteps() && (
+            <li className={style.uploadListItem}>
+              <span className={`${theme.icon} ${style.icon}`} />
+              <span
+                className={classNames(
+                  style.listText,
+                  style.documentUploadedLabel
+                )}
+              >
+                {translate(documentCopy)}
+              </span>
+            </li>
+          )}
+          {this.hasFaceCaptureStep() && (
+            <li className={style.uploadListItem}>
+              <span className={`${theme.icon} ${style.icon}`} />
+              <span
+                className={classNames(
+                  style.listText,
+                  style[`${faceCaptureVariant}UploadedLabel`]
+                )}
+              >
+                {translate(selfieCopy)}
+              </span>
+            </li>
+          )}
+        </ul>
+      </ScreenLayout>
     )
   }
 }
