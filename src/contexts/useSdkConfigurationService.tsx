@@ -15,9 +15,12 @@ const defaultConfiguration: SdkConfiguration = {
   experimental_features: {
     enable_multi_frame_capture: false,
   },
+  sdk_features: {
+    enable_applicant_consents: true,
+  },
 }
 
-const SdkConfigurationServiceContext = createContext<SdkConfiguration>(
+export const SdkConfigurationServiceContext = createContext<SdkConfiguration>(
   defaultConfiguration
 )
 

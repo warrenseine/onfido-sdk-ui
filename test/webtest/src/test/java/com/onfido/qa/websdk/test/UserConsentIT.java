@@ -12,7 +12,7 @@ public class UserConsentIT extends WebSdkIT {
     public static final String CONSENT_FRAME_TITLE = "Onfido's privacy statement and Terms of Service";
 
     private UserConsent init() {
-        return onfido().withSteps("userConsent", "document").init(UserConsent.class);
+        return onfido().withSteps("document").init(UserConsent.class);
     }
 
     @Test(description = "should verify UI elements on the consent screen")
