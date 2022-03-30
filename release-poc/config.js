@@ -1,0 +1,6 @@
+const { RELEASE_VERSION, BASE32_VERSION } = process.env
+
+module.exports = {
+  RELEASE_VERSION: RELEASE_VERSION || '6.15.5',
+  BASE32_VERSION: BASE32_VERSION || 'AA',
+}
