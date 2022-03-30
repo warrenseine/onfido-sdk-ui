@@ -141,6 +141,7 @@ export default class MainRouter extends Component<InternalRouterProps, State> {
 
     return (
       <SdkConfigurationServiceProvider
+        overrideConfiguration={this.props.options.overrideSdkConfiguration}
         url={urls.onfido_api_url}
         token={token}
         fallback={

@@ -9,6 +9,7 @@ type SdkConfigurationServiceProviderProps = {
   url?: string
   token?: string
   fallback?: ComponentChildren
+  overrideConfiguration?: SdkConfiguration
 }
 
 const defaultConfiguration: SdkConfiguration = {
@@ -29,6 +30,7 @@ export const SdkConfigurationServiceProvider = ({
   url,
   token,
   fallback,
+  overrideConfiguration = {},
 }: SdkConfigurationServiceProviderProps) => {
   const [configuration, setConfiguration] = useState<
     SdkConfiguration | undefined
@@ -40,10 +42,15 @@ export const SdkConfigurationServiceProvider = ({
     }
     getSdkConfiguration(url, token)
       .then((apiConfiguration) =>
-        setConfiguration(deepmerge(defaultConfiguration, apiConfiguration))
+        setConfiguration(
+          deepmerge(
+            deepmerge(defaultConfiguration, apiConfiguration),
+            overrideConfiguration
+          )
+        )
       )
       .catch(() => setConfiguration(defaultConfiguration))
-  }, [url, token])
+  }, [url, token]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!configuration) {
     return <Fragment>{fallback}</Fragment>
