@@ -17,7 +17,7 @@ const defaultConfiguration: SdkConfiguration = {
     enable_multi_frame_capture: false,
   },
   sdk_features: {
-    enable_applicant_consents: true,
+    enable_applicant_consents: false,
   },
 }
 
